@@ -216,18 +216,20 @@ const Home = () => {
           </h2>
 
           {/* Buttons */}
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-2 md:mt-4 pb-12 md:pb-20 w-full sm:w-auto text-[14px] leading-5 font-custom">
-            <Link to="/#register" className="w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mt-2 md:mt-4 pb-12 md:pb-20 w-full sm:w-auto text-[14px] leading-5 font-custom">
+            <Link to="/#register" className="w-[65%] sm:w-auto">
               <button className="w-full text-[#D0252D] px-2 py-3 border border-[#D0252D] hover:bg-[#D0252D] hover:text-white transition rounded-sm font-bold tracking-[0.26rem] bg-white/70 cursor-pointer">
                 REGISTER NOW
               </button>
             </Link>
-            <Link to="/#connect" className="w-full sm:w-auto">
+
+            <Link to="/#connect" className="w-[65%] sm:w-auto">
               <button className="w-full text-[#D0252D] px-2 py-3 border border-[#D0252D] hover:bg-[#D0252D] hover:text-white transition rounded-sm font-semibold tracking-[0.26rem] bg-white/70 cursor-pointer">
                 CONTACT US
               </button>
             </Link>
-            <Link to="/past-editions" className="w-full sm:w-auto">
+
+            <Link to="/past-editions" className="w-[65%] sm:w-auto">
               <button className="w-full text-[#D0252D] px-2 py-3 border border-[#D0252D] hover:bg-[#D0252D] hover:text-white transition rounded-sm font-semibold tracking-[0.26rem] bg-white/70 cursor-pointer">
                 PAST EDITIONS
               </button>

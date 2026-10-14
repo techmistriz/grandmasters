@@ -195,31 +195,40 @@ const SpeakersSection = () => {
         </div>
       </div>
 
-      {/* Bottom CTA (UNCHANGED) */}
-      <div className="w-full bg-black/30 py-12 px-4 text-white">
-        <h1 className="flex font-roboto text-3xl sm:text-4xl leading-[55px] md:text-[50px] font-bold tracking-tighter justify-center">
-          {" "}
-          Get Involved
-        </h1>
-        <p className="flex justify-center my-4 font-roboto text-[15px] font-normal leading-[28px]">
-          All that You’d Like to Know about The Grand Masters 2026
-        </p>
+      {/* Bottom CTA */}
+      <div
+        className="relative w-full bg-center bg-cover py-12 px-4 text-white"
+        style={{ backgroundImage: `url(${bgImg})` }}
+      >
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black/50"></div>
 
-        <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4 mt-8">
-          {[
-            { label: "SPEAK", to: "/#speak" },
-            { label: "SPONSOR", to: "/#sponsor" },
-            { label: "REGISTER NOW", to: "/#register" },
-            { label: "CONNECT", to: "/#contact" },
-          ].map(({ label, to }) => (
-            <Link
-              key={label}
-              to={to}
-              className="w-full sm:w-auto min-w-[180px] border border-white rounded-md py-3 px-6 mx-0 md:mx-10 md:py-4 text-sm font-bold tracking-[0.2rem] leading-[14px] text-center transition-colors hover:bg-[#D0252D]"
-            >
-              {label}
-            </Link>
-          ))}
+        {/* Content */}
+        <div className="relative z-10">
+          <h1 className="flex font-roboto text-3xl sm:text-4xl leading-[55px] md:text-[50px] font-bold tracking-tighter justify-center">
+            Get Involved
+          </h1>
+
+          <p className="flex justify-center my-4 font-roboto text-[15px] font-normal leading-[28px] text-center">
+            All that You’d Like to Know about The Grand Masters 2026
+          </p>
+
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4 mt-8">
+            {[
+              { label: "SPEAK", to: "/#speak" },
+              { label: "SPONSOR", to: "/#sponsor" },
+              { label: "REGISTER NOW", to: "/#register" },
+              { label: "CONNECT", to: "/#contact" },
+            ].map(({ label, to }) => (
+              <Link
+                key={label}
+                to={to}
+                className="w-[65%] sm:w-auto min-w-0 sm:min-w-[180px] border border-white rounded-md py-3 px-6 mx-0 md:mx-10 md:py-4 text-sm font-bold tracking-[0.2rem] leading-[14px] text-center transition-colors hover:bg-[#D0252D]"
+              >
+                {label}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </section>
