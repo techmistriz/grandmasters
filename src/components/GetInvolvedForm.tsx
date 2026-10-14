@@ -88,7 +88,7 @@ const GetInvolvedForm = () => {
       </div>
 
       {/* Content Container */}
-      <div className="relative z-10 container md:max-w-6xl mx-auto px-4 sm:px-6 md:px-12 lg:px-20 py-2  flex flex-col lg:flex-row items-center gap-10 lg:gap-12">
+      <div className="relative z-10 container md:max-w-6xl mx-auto px-4 sm:px-6 md:px-12 lg:px-20 py-6 md:py-2 flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
         {/* Left Side: Text */}
         <div className="w-full lg:w-1/2 text-center text-white mt-0 lg:-mt-30">
           <h2 className="mb-4 text-3xl sm:text-4xl md:text-[50px] font-normal leading-tight md:leading-[55px] font-roboto">
@@ -134,7 +134,7 @@ const GetInvolvedForm = () => {
                 id="updates"
                 checked={formdata.confirmation}
                 onChange={handleCheckboxChange}
-                className=" h-8 w-8 accent-[#8D93A0] cursor-pointer"
+                className="h-5 w-5 md:h-8 md:w-8 shrink-0 accent-[#8D93A0] cursor-pointer mt-1"
               />
               <label
                 htmlFor="updates"
@@ -160,10 +160,10 @@ const GetInvolvedForm = () => {
             </div>
 
             {/* Submit Button */}
-            <div className="">
+            <div className="flex justify-center">
               <button
                 type="submit"
-                className="w-full sm:w-auto px-10 py-2 border rounded-sm border-white text-white font-medium uppercase text-sm hover:bg-[#d0252d] hover:text-white cursor-pointer transition-all duration-300 bg-black/30"
+                className="w-[65%]  sm:w-auto px-10 py-2 border rounded-sm border-white text-white font-medium uppercase text-sm hover:bg-[#d0252d] hover:text-white cursor-pointer transition-all duration-300 bg-black/30"
               >
                 Submit
               </button>
