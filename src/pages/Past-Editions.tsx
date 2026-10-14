@@ -119,7 +119,8 @@ const PastEdition = () => {
                           alt={event?.title}
                           className="w-full object-contain cursor-pointer"
                           onError={(e) => {
-                            e.currentTarget.src = image;
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = defaultImg;
                           }}
                         />
                       </div>

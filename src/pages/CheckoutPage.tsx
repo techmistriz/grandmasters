@@ -15,6 +15,23 @@ import { loadRazorpay } from "../utils/loadRazorpay";
 import { removeItem, updateCart } from "../services/APIs/cart";
 import { getCities, getCountries, getStates } from "../services/APIs/location";
 
+interface CartTotal {
+  items?: {
+    id: number;
+    plan_id: number;
+    plan_name: string;
+    price: number;
+    quantity: number;
+  }[];
+  coupon?: {
+    code: string;
+  } | null;
+  discount?: number | string;
+  gst_percent?: number | string;
+  gst_amount?: number | string;
+  total?: number | string;
+}
+
 const CheckoutPage = () => {
   const { data: cartData, isLoading, refetch } = useCart();
   const applyCouponMutation = useApplyCoupon();
@@ -23,7 +40,7 @@ const CheckoutPage = () => {
   const timeoutRef = useRef<Record<number, ReturnType<typeof setTimeout>>>({});
 
   const cartItems = cartData?.data?.items || [];
-  const cartTotal = cartData?.data || {};
+  const cartTotal = cartData?.data as CartTotal | undefined;
 
   const navigate = useNavigate();
 
@@ -110,8 +127,15 @@ const CheckoutPage = () => {
   };
 
   const handleRemoveCoupon = async () => {
+    const code = cartTotal?.coupon?.code;
+
+    if (!code) {
+      toast.error("No coupon applied.");
+      return;
+    }
+
     try {
-      await removeCouponMutation.mutateAsync(cartTotal?.coupon?.code);
+      await removeCouponMutation.mutateAsync(code);
 
       setCouponCode("");
       setShowCouponBox(false);

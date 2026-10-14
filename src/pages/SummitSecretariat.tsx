@@ -7,10 +7,10 @@ import { summitData } from "../data/summitData";
 import defaultImg from "../assets\/images.png";
 
 const SummitSecretariat = () => {
-  const [openSection, setOpenSection] = useState("2023");
+  const [openSection, setOpenSection] = useState<string | null>("2023");
 
-  const toggleSection = (year) => {
-    setOpenSection(openSection === year ? null : year);
+  const toggleSection = (year: string) => {
+    setOpenSection((current) => (current === year ? null : year));
   };
 
   return (
