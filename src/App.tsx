@@ -48,7 +48,7 @@ function ScrollToTop() {
 function App() {
   console.log("MODE:", import.meta.env.MODE);
   console.log("API:", import.meta.env.VITE_API_BASE_URL);
-  
+
   return (
     <BrowserRouter>
       <ScrollToTop />
