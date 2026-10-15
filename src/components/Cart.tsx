@@ -9,7 +9,7 @@ import {
   applyCoupon,
   removeCoupon,
   undoRemoveItem,
-} from "../services/APIs/cart";
+} from "../services/cart.service";
 import { useCart } from "../hooks/useCart";
 import { useQueryClient } from "@tanstack/react-query";
 import type { CartItem } from "../types/summit.types";

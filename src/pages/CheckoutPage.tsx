@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useCart } from "../hooks/useCart";
-import { useApplyCoupon, useRemoveCoupon } from "../services/APIs/useCoupon";
+import { useApplyCoupon, useRemoveCoupon } from "../hooks/useCoupon";
 import { ChevronDown, Ticket, Trash2 } from "lucide-react";
 import { FaCheckCircle } from "react-icons/fa";
 import { toast } from "sonner";
@@ -10,10 +10,15 @@ import {
   paymentFail,
   registerOrder,
   verifyPayment,
-} from "../services/APIs/payment";
+} from "../services/payment.service";
 import { loadRazorpay } from "../utils/loadRazorpay";
-import { removeItem, updateCart } from "../services/APIs/cart";
-import { getCities, getCountries, getStates } from "../services/APIs/location";
+import { removeItem, updateCart } from "../services/cart.service";
+import {
+  getCities,
+  getCountries,
+  getStates,
+} from "../services/location.service";
+import { AttendeeFormData, RegisterOrderPayload } from "../types/summit.types";
 
 interface CartTotal {
   items?: {
@@ -64,11 +69,11 @@ const CheckoutPage = () => {
   const [selectedStateId, setSelectedStateId] = useState<number | null>(null);
 
   const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    designation: "",
+    full_name: "",
     email: "",
     phone: "",
+    gst_number: "",
+    firm_name: "",
     country: "India",
     country_id: 101 as number,
 
@@ -79,9 +84,31 @@ const CheckoutPage = () => {
     city_id: null as number | null,
     address: "",
     pincode: "",
-    company_name: "",
-    gst_number: "",
   });
+
+  const emptyAttendee: AttendeeFormData = {
+    name: "",
+    email: "",
+    phone: "",
+    company: "",
+    designation: "",
+  };
+
+  const attendeeCount = cartItems.reduce(
+    (total, item) => total + Math.max(0, Number(item.quantity) || 0),
+    0,
+  );
+
+  const [attendees, setAttendees] = useState<AttendeeFormData[]>([]);
+
+  useEffect(() => {
+    setAttendees((previous) =>
+      Array.from(
+        { length: attendeeCount },
+        (_, index) => previous[index] ?? { ...emptyAttendee },
+      ),
+    );
+  }, [attendeeCount]);
 
   const handleQuantityChange = async (planId: number, quantity: number) => {
     if (quantity < 1) return;
@@ -161,44 +188,68 @@ const CheckoutPage = () => {
   };
 
   const handleOrder = async () => {
+    const validEmail = (email: string) =>
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+
     try {
       if (
-        !formData.first_name ||
-        !formData.last_name ||
-        !formData.email ||
-        !formData.phone ||
-        !formData.designation ||
-        !formData.company_name ||
-        !formData.address ||
+        !formData.full_name.trim() ||
+        !validEmail(formData.email) ||
+        formData.phone.length !== 10 ||
+        !formData.firm_name.trim() ||
+        !formData.address.trim() ||
         !formData.city_id ||
         !formData.state_id ||
         !formData.country_id ||
-        !formData.pincode
+        formData.pincode.length !== 6
       ) {
-        console.error("Validation Failed", formData);
-        toast.error("Please fill all required fields");
+        toast.error("Please complete all required billing fields correctly.");
+        return;
+      }
+
+      if (attendees.length !== attendeeCount || attendeeCount === 0) {
+        toast.error("Please check your ticket quantity and attendee details.");
+        return;
+      }
+
+      const invalidAttendee = attendees.some(
+        (attendee) =>
+          !attendee.name.trim() ||
+          !validEmail(attendee.email) ||
+          attendee.phone.length !== 10 ||
+          !attendee.company.trim() ||
+          !attendee.designation.trim(),
+      );
+
+      if (invalidAttendee) {
+        toast.error("Please complete all attendee details correctly.");
         return;
       }
 
       setLoading(true);
 
-      const registerResponse = await registerOrder({
-        first_name: formData.first_name,
-        last_name: formData.last_name,
-        email: formData.email,
+      const payload: RegisterOrderPayload = {
+        full_name: formData.full_name,
+        email: formData.email.trim(),
         phone: formData.phone,
-        designation: formData.designation,
-        company_name: formData.company_name,
-        gst_number: formData.gst_number,
-        address: formData.address,
-
-        city_id: formData.city_id,
-        state_id: formData.state_id,
-        country_id: formData.country_id,
-
+        firm_name: formData.firm_name.trim(),
+        gst_number: formData.gst_number.trim(),
+        message: "",
+        address: formData.address.trim(),
+        city_id: String(formData.city_id),
+        state_id: String(formData.state_id),
+        country_id: String(formData.country_id),
         pincode: formData.pincode,
-      });
+        attendees: attendees.map((attendee) => ({
+          attendee_name: attendee.name.trim(),
+          attendee_email: attendee.email.trim(),
+          attendee_phone: attendee.phone,
+          attendee_company: attendee.company.trim(),
+          attendee_designation: attendee.designation.trim(),
+        })),
+      };
 
+      const registerResponse = await registerOrder(payload);
       const order = registerResponse.data;
 
       const loaded = await loadRazorpay();
@@ -213,7 +264,6 @@ const CheckoutPage = () => {
         amount: order.amount,
         currency: order.currency,
         order_id: order.razorpay_order_id,
-
         name: "Grand Masters",
         description: order.order_number,
 
@@ -223,28 +273,34 @@ const CheckoutPage = () => {
           contact: order.user.phone,
         },
 
-        handler: async (response: any) => {
+        handler: async (response: {
+          razorpay_order_id: string;
+          razorpay_payment_id: string;
+          razorpay_signature: string;
+        }) => {
           try {
             setPaymentProcessing(true);
 
-            const verifyPayload = {
+            const verifyRes = await verifyPayment({
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
-            };
-
-            const verifyRes = await verifyPayment(verifyPayload);
+            });
 
             toast.success("Payment Successful");
 
             navigate("/payment-success", {
               state: verifyRes.data || verifyRes,
             });
-          } catch (error: any) {
-            toast.error(
-              error.response?.data?.message || "Payment verification failed",
-            );
+          } catch (error) {
+            const message =
+              (
+                error as {
+                  response?: { data?: { message?: string } };
+                }
+              ).response?.data?.message || "Payment verification failed";
 
+            toast.error(message);
             setPaymentProcessing(false);
           }
         },
@@ -254,7 +310,7 @@ const CheckoutPage = () => {
             setPaymentProcessing(false);
 
             try {
-              const failRes = await paymentFail({
+              await paymentFail({
                 razorpay_order_id: order.razorpay_order_id,
               });
             } catch (error) {
@@ -270,29 +326,38 @@ const CheckoutPage = () => {
         },
       });
 
-      razorpay.on("payment.failed", async (response: any) => {
+      razorpay.on("payment.failed", async () => {
         setPaymentProcessing(false);
+
         try {
-          const failRes = await paymentFail({
+          await paymentFail({
             razorpay_order_id: order.razorpay_order_id,
           });
-
-          toast.error("Payment failed");
-        } catch (error: any) {
-          toast.error("Payment failed");
+        } catch (error) {
+          console.error("PAYMENT FAIL API ERROR:", error);
         }
+
+        toast.error("Payment failed");
       });
 
       razorpay.open();
-    } catch (error: any) {
-      console.log("REGISTER ERROR", error.response?.data);
-      console.log("PAYLOAD", formData);
+    } catch (error) {
+      const message =
+        (
+          error as {
+            response?: { data?: { message?: string; error?: string } };
+          }
+        ).response?.data?.message ||
+        (
+          error as {
+            response?: { data?: { error?: string } };
+          }
+        ).response?.data?.error ||
+        "Order creation failed";
 
-      toast.error(
-        error?.response?.data?.message ||
-          error?.response?.data?.error ||
-          "Order creation failed",
-      );
+      toast.error(message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -553,6 +618,146 @@ const CheckoutPage = () => {
                 </>
               )}
 
+              {/* Attendee Details */}
+              <div>
+                <h2 className="text-[#D0252d] font-bold text-xl mb-6 uppercase tracking-wide">
+                  Attendee Details
+                </h2>
+
+                <div className="space-y-6">
+                  {attendees.map((attendee, index) => (
+                    <div
+                      key={index}
+                      className="border border-gray-200 rounded-md p-5 space-y-5"
+                    >
+                      <h3 className="text-[#333] font-semibold text-base">
+                        Attendee {index + 1}
+                      </h3>
+
+                      {/* First row: Name, Email, Phone */}
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                            Name <span className="text-[#D0252D]">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            value={attendee.name}
+                            onChange={(e) =>
+                              setAttendees((previous) =>
+                                previous.map((item, i) =>
+                                  i === index
+                                    ? { ...item, name: e.target.value }
+                                    : item,
+                                ),
+                              )
+                            }
+                            placeholder="Enter attendee name"
+                            className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring-2 focus:ring-[#D0252D] focus:border-transparent outline-none text-[13px] transition-shadow"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                            Email Address{" "}
+                            <span className="text-[#D0252D]">*</span>
+                          </label>
+                          <input
+                            type="email"
+                            value={attendee.email}
+                            onChange={(e) =>
+                              setAttendees((previous) =>
+                                previous.map((item, i) =>
+                                  i === index
+                                    ? { ...item, email: e.target.value }
+                                    : item,
+                                ),
+                              )
+                            }
+                            placeholder="Enter attendee email"
+                            className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring-2 focus:ring-[#D0252D] focus:border-transparent outline-none text-[13px] transition-shadow"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                            Phone <span className="text-[#D0252D]">*</span>
+                          </label>
+                          <input
+                            type="tel"
+                            value={attendee.phone}
+                            maxLength={10}
+                            onChange={(e) =>
+                              setAttendees((previous) =>
+                                previous.map((item, i) =>
+                                  i === index
+                                    ? {
+                                        ...item,
+                                        phone: e.target.value.replace(
+                                          /\D/g,
+                                          "",
+                                        ),
+                                      }
+                                    : item,
+                                ),
+                              )
+                            }
+                            placeholder="Enter phone number"
+                            className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring-2 focus:ring-[#D0252D] focus:border-transparent outline-none text-[13px] transition-shadow"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Second row: Company, Designation */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                            Company <span className="text-[#D0252D]">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            value={attendee.company}
+                            onChange={(e) =>
+                              setAttendees((previous) =>
+                                previous.map((item, i) =>
+                                  i === index
+                                    ? { ...item, company: e.target.value }
+                                    : item,
+                                ),
+                              )
+                            }
+                            placeholder="Enter company name"
+                            className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring-2 focus:ring-[#D0252D] focus:border-transparent outline-none text-[13px] transition-shadow"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                            Designation{" "}
+                            <span className="text-[#D0252D]">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            value={attendee.designation}
+                            onChange={(e) =>
+                              setAttendees((previous) =>
+                                previous.map((item, i) =>
+                                  i === index
+                                    ? { ...item, designation: e.target.value }
+                                    : item,
+                                ),
+                              )
+                            }
+                            placeholder="Enter designation"
+                            className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring-2 focus:ring-[#D0252D] focus:border-transparent outline-none text-[13px] transition-shadow"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               {/* Billing Details Form */}
               <div>
                 <h2 className="text-[#D0252d] font-bold text-xl mb-6 uppercase tracking-wide">
@@ -560,136 +765,106 @@ const CheckoutPage = () => {
                 </h2>
 
                 <div className="space-y-5">
-                  <div className="flex flex-col md:flex-row gap-4">
-                    <div className="flex-1">
+                  {/* Row 1: Full Name and Email */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                        First name <span className="text-[#D0252D]">*</span>
+                        Full Name <span className="text-[#D0252D]">*</span>
                       </label>
                       <input
                         type="text"
-                        value={formData.first_name}
+                        value={formData.full_name}
                         onChange={(e) =>
                           setFormData((prev) => ({
                             ...prev,
-                            first_name: e.target.value,
+                            full_name: e.target.value,
                           }))
                         }
-                        placeholder="Enter first name"
+                        placeholder="Enter full name"
                         className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring-2 focus:ring-[#D0252D] focus:border-transparent outline-none text-[13px] transition-shadow"
                       />
                     </div>
-                    <div className="flex-1">
+
+                    <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                        Last name <span className="text-[#D0252D]">*</span>
+                        Email Address <span className="text-[#D0252D]">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            email: e.target.value,
+                          }))
+                        }
+                        placeholder="Enter email"
+                        className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring-2 focus:ring-[#D0252D] focus:border-transparent outline-none text-[13px] transition-shadow"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Row 2: Phone and GST Number */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                        Phone <span className="text-[#D0252D]">*</span>
+                      </label>
+                      <input
+                        type="tel"
+                        value={formData.phone}
+                        maxLength={10}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            phone: e.target.value.replace(/\D/g, ""),
+                          }))
+                        }
+                        placeholder="Enter phone number"
+                        className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring-2 focus:ring-[#D0252D] focus:border-transparent outline-none text-[13px] transition-shadow"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                        GST Number
                       </label>
                       <input
                         type="text"
-                        value={formData.last_name}
+                        value={formData.gst_number}
                         onChange={(e) =>
                           setFormData((prev) => ({
                             ...prev,
-                            last_name: e.target.value,
+                            gst_number: e.target.value.toUpperCase(),
                           }))
                         }
-                        placeholder="Enter last name"
+                        placeholder="Enter GST number"
                         className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring-2 focus:ring-[#D0252D] focus:border-transparent outline-none text-[13px] transition-shadow"
                       />
                     </div>
                   </div>
 
+                  {/* Organization Name */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                      Designation <span className="text-[#D0252D]">*</span>
+                      Organization Name{" "}
+                      <span className="text-[#D0252D]">*</span>
                     </label>
                     <input
                       type="text"
-                      value={formData.designation}
+                      value={formData.firm_name}
                       onChange={(e) =>
                         setFormData((prev) => ({
                           ...prev,
-                          designation: e.target.value,
+                          firm_name: e.target.value,
                         }))
                       }
-                      placeholder="Enter designation"
+                      placeholder="Enter Organization name"
                       className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring-2 focus:ring-[#D0252D] focus:border-transparent outline-none text-[13px] transition-shadow"
                     />
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                      Email address <span className="text-[#D0252D]">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          email: e.target.value.trim(),
-                        }))
-                      }
-                      placeholder="Enter email"
-                      className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring-2 focus:ring-[#D0252D] focus:border-transparent outline-none text-[13px] transition-shadow"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                      Phone <span className="text-[#D0252D]">*</span>
-                    </label>
-                    <input
-                      type="tel"
-                      value={formData.phone}
-                      maxLength={10}
-                      onChange={(e) => {
-                        const value = e.target.value.replace(/\D/g, "");
-                        setFormData((prev) => ({
-                          ...prev,
-                          phone: value,
-                        }));
-                      }}
-                      placeholder="Enter phone number"
-                      className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring-2 focus:ring-[#D0252D] focus:border-transparent outline-none text-[13px] transition-shadow"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                      Company Name <span className="text-[#D0252D]">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.company_name}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          company_name: e.target.value,
-                        }))
-                      }
-                      placeholder="Enter company name"
-                      className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring-2 focus:ring-[#D0252D] focus:border-transparent outline-none text-[13px] transition-shadow"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                      GST Number
-                    </label>
-
-                    <input
-                      type="text"
-                      value={formData.gst_number}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          gst_number: e.target.value.toUpperCase(),
-                        }))
-                      }
-                      placeholder="Enter GST number"
-                      className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring-2 focus:ring-[#D0252D] focus:border-transparent outline-none text-[13px] transition-shadow"
-                    />
-                  </div>
-
+                  {/* Address */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">
                       Address <span className="text-[#D0252D]">*</span>
@@ -708,6 +883,7 @@ const CheckoutPage = () => {
                     />
                   </div>
 
+                  {/* Country */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">
                       Country / Region <span className="text-[#D0252D]">*</span>
@@ -737,11 +913,11 @@ const CheckoutPage = () => {
                         placeholder="Select Country"
                         isSearchable
                       />
-
                       <ChevronDown className="absolute right-3 top-3 w-4 h-4 text-[#8D93A0] pointer-events-none" />
                     </div>
                   </div>
 
+                  {/* State, City, and Pincode */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1.5">
@@ -811,13 +987,12 @@ const CheckoutPage = () => {
                         type="text"
                         value={formData.pincode}
                         maxLength={6}
-                        onChange={(e) => {
-                          const value = e.target.value.replace(/\D/g, "");
+                        onChange={(e) =>
                           setFormData((prev) => ({
                             ...prev,
-                            pincode: value,
-                          }));
-                        }}
+                            pincode: e.target.value.replace(/\D/g, ""),
+                          }))
+                        }
                         placeholder="Enter pincode"
                         className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring-2 focus:ring-[#D0252D] focus:border-transparent outline-none text-[13px] transition-shadow"
                       />

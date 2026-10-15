@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ChevronDown, Clock } from "lucide-react";
 import icon from "../assets/icons/icon1.png";
-import { getEvents } from "../services/APIs/homePage";
+import { getEvents } from "../services/homepage.service";
 import { handleImageError } from "../utils/imageUtils";
 import iconLogo from "../assets/icons/LW-Brand-Icon-48X48-1.png";
 

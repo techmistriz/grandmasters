@@ -1,4 +1,4 @@
-import api from "../axios";
+import api from "../network/axios";
 
 export const getCities = async () => {
   const { data } = await api.get("/event-cities");

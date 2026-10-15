@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { applyCoupon, removeCoupon } from "./cart";
+import { applyCoupon, removeCoupon } from "../services/cart.service";
 
 export const useApplyCoupon = () => {
   const queryClient = useQueryClient();

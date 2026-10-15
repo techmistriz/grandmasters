@@ -1,7 +1,10 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import icon6 from "../assets/icons/icon6.png";
-import { getHomepageGallery, getSummitEvents } from "../services/APIs/homePage";
+import {
+  getHomepageGallery,
+  getSummitEvents,
+} from "../services/homepage.service";
 import type {
   SummitGalleryEvent,
   SummitGalleryImage,
@@ -59,7 +62,9 @@ const SummitGallery = () => {
             await fetchGallery(firstEvent.id);
 
             requestAnimationFrame(() => {
-              updateIndicator(0);
+              requestAnimationFrame(() => {
+                updateIndicator(0);
+              });
             });
           }
         }
@@ -106,11 +111,13 @@ const SummitGallery = () => {
 
     const index = events.findIndex((item) => item.city?.name === activeTab);
 
-    if (index !== -1) {
-      requestAnimationFrame(() => {
-        updateIndicator(index);
-      });
-    }
+    if (index === -1) return;
+
+    const frame = requestAnimationFrame(() => {
+      updateIndicator(index);
+    });
+
+    return () => cancelAnimationFrame(frame);
   }, [events, activeTab]);
 
   const handleTabClick = async (event: SummitGalleryEvent, index: number) => {
@@ -230,13 +237,13 @@ const SummitGallery = () => {
           </div>
 
           {/* Triangle Indicator */}
-          <div className="absolute  left-0 w-full pointer-events-none">
+          <div className="absolute left-0 top-full w-full pointer-events-none">
             <div
               className="hidden sm:block absolute w-0 h-0
-      border-l-[12px] border-l-transparent
-      border-r-[12px] border-r-transparent
-      border-t-[10px] border-t-[#D0252D]
-      transition-all duration-300"
+                border-l-[12px] border-l-transparent
+                border-r-[12px] border-r-transparent
+                border-t-[10px] border-t-[#D0252D]
+                transition-all duration-300"
               style={{
                 left: `${indicatorStyle.left}px`,
                 transform: "translateX(-50%)",

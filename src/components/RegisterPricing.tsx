@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import icon4 from "../assets/icons/icon4.png";
-import { getPlans } from "../services/APIs/plans";
+import { getPlans } from "../services/plans.service";
 import CitySelectorModal from "./CityPopup";
-import { getEvents } from "../services/APIs/homePage";
+import { getEvents } from "../services/homepage.service";
 import { usePlans } from "../hooks/usePlans";
 import { useEvents } from "../hooks/useEvents";
 

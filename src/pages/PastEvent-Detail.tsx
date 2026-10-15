@@ -1,7 +1,8 @@
 import img1 from "../assets/images/detail.jpg";
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { getPastEditionDetail } from "../services/APIs/pastEdition";
+import { getPastEditionDetail } from "../services/past-edition.service";
+import NotFound from "../components/NotFound";
 
 const staticDignitaries: Record<string, any[]> = {
   "2023-New Delhi": [
@@ -82,13 +83,22 @@ const EditionOverview = () => {
 
   useEffect(() => {
     const fetchDetail = async () => {
+      setLoading(true);
+      setEventData(null);
+
       try {
-        if (!slug) return;
+        if (!slug) {
+          setEventData(null);
+          return;
+        }
 
         const res = await getPastEditionDetail(slug);
-        setEventData(res.data.data);
+        const data = res.data.data;
+
+        setEventData(data || null);
       } catch (error) {
         console.error(error);
+        setEventData(null);
       } finally {
         setLoading(false);
       }
@@ -155,6 +165,11 @@ const EditionOverview = () => {
       </div>
     );
   }
+
+  if (!eventData) {
+    return <NotFound />;
+  }
+
   const dignitaryKey = `${eventData?.year}-${eventData?.city?.name}`;
   const dignitaries =
     staticDignitaries[dignitaryKey] || eventData?.dignitaries || [];
@@ -174,6 +189,7 @@ const EditionOverview = () => {
     str.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
 
   console.log(eventData);
+
   return (
     <div className="min-h-screen font-roboto bg-white mt-16 lg:mt-[98px]">
       {/* Header */}

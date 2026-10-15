@@ -1,7 +1,7 @@
 // hooks/useSponsors.ts
 
 import { useQuery } from "@tanstack/react-query";
-import { getSponsors } from "../services/APIs/homePage";
+import { getSponsors } from "../services/homepage.service";
 
 export const useSponsors = () => {
   return useQuery({

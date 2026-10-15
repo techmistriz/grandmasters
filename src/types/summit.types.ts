@@ -48,3 +48,38 @@ export type SponsorsResponse = {
     margedSponsors?: SponsorItem[];
   };
 };
+
+
+
+
+export type AttendeePayload = {
+  attendee_name: string;
+  attendee_email: string;
+  attendee_phone: string;
+  attendee_company: string;
+  attendee_designation: string;
+};
+
+export type RegisterOrderPayload = {
+  full_name: string;
+  email: string;
+  phone: string;
+  firm_name: string;
+  // company_name: string;
+  gst_number: string;
+  message: string;
+  address: string;
+  city_id: string;
+  state_id: string;
+  country_id: string;
+  pincode: string;
+  attendees: AttendeePayload[];
+};
+
+export type AttendeeFormData = {
+  name: string;
+  email: string;
+  phone: string;
+  company: string;
+  designation: string;
+};

@@ -1,4 +1,4 @@
-import api from "../axios";
+import api from "../network/axios";
 
 export const submitShowcase = async (payload: {
   event_type_id: string;

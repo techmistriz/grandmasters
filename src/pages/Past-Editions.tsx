@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import defaultImg from "../assets/images.png";
 import { useNavigate } from "react-router-dom";
-import { getPastEdition } from "../services/APIs/pastEdition";
+import { getPastEdition } from "../services/past-edition.service";
 
 type EventItem = {
   slug: any;
