@@ -4,7 +4,7 @@ const buttons = [
   { label: "SPEAK", to: "/#speak" },
   { label: "SPONSOR", to: "/#sponsor" },
   { label: "REGISTER NOW", to: "/#register" },
-  { label: "CONNECT", to: "/#contact" },
+  { label: "CONNECT", to: "/#connect" },
 ];
 
 const GetInvolvedButtons = () => {

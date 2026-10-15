@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import { addToCart } from "../services/APIs/cart";
+import { addToCart } from "../services/cart.service";
 import { useNavigate } from "react-router-dom";
 import ahd from "../assets/icons/ahd.avif";
 import hyd from "../assets/icons/hyd.png";
 import { useQueryClient } from "@tanstack/react-query";
+import { APP_EVENT_TYPE } from "../constant/config";
 
 type Props = {
   isOpen: boolean;
@@ -50,7 +51,7 @@ const CitySelectorModal = ({
     }
 
     const payload = {
-      event_type_id: 6,
+      event_type_id: APP_EVENT_TYPE,
       event_id: selectedEventId,
       plan_id: selectedPlanId,
       quantity: 1,

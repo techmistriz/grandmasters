@@ -1,5 +1,5 @@
-import { APP_EVENT_TYPE } from "../../constant/config";
-import api from "../axios";
+import { APP_EVENT_TYPE } from "../constant/config";
+import api from "../network/axios";
 
 export const getPastEdition = async () => {
   const response = await api.get(`/events/${APP_EVENT_TYPE}`, {

@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
-import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer";
 import { Toaster } from "sonner";
 
@@ -16,6 +15,7 @@ import SummitSecretariat from "./pages/SummitSecretariat";
 import CheckoutPage from "./pages/CheckoutPage";
 import PaymentSuccess from "./components/PaymentSuccess";
 import NotFound from "./components/NotFound";
+import Navbar from "./components/Navbar";
 
 function ScrollToTop() {
   const location = useLocation();
@@ -48,6 +48,7 @@ function ScrollToTop() {
 function App() {
   console.log("MODE:", import.meta.env.MODE);
   console.log("API:", import.meta.env.VITE_API_BASE_URL);
+  
   return (
     <BrowserRouter>
       <ScrollToTop />

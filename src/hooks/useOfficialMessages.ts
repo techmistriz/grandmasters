@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getOfficialMessages } from "../services/APIs/officialMessage";
+import { getOfficialMessages } from "../services/official-message.service";
 
 export const useOfficialMessages = (eventTypeId: number = 1) => {
   return useQuery({

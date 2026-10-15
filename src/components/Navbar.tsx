@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { HiMenu, HiX } from "react-icons/hi";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const navigateToSection = (id: string) => {
+    navigate(`/#${id}`);
+  };
+
   const [active, setActive] = useState("");
   const [mobileMenu, setMobileMenu] = useState(false);
 
@@ -14,8 +20,53 @@ const Navbar = () => {
     { id: "agenda", label: "AGENDA", type: "section" },
     { id: "sponsor", label: "SPONSOR", type: "section" },
     { id: "/past-editions", label: "PAST EDITIONS", type: "route" },
-    { id: "contact", label: "CONNECT", type: "section" },
+    { id: "connect", label: "CONNECT", type: "section" },
   ];
+
+  useEffect(() => {
+    if (location.pathname !== "/" || !location.hash) return;
+
+    const id = location.hash.slice(1);
+    let animationFrame = 0;
+    let attempts = 0;
+    let previousTop = -1;
+    let stableFrames = 0;
+
+    const scrollToSection = () => {
+      const element = document.getElementById(id);
+
+      if (!element) {
+        if (attempts++ < 120) {
+          animationFrame = requestAnimationFrame(scrollToSection);
+        }
+        return;
+      }
+
+      const targetTop =
+        element.getBoundingClientRect().top + window.scrollY - 96;
+
+      if (Math.abs(targetTop - previousTop) < 1) {
+        stableFrames++;
+      } else {
+        stableFrames = 0;
+      }
+
+      previousTop = targetTop;
+
+      window.scrollTo({
+        top: targetTop,
+        behavior: "smooth",
+      });
+
+      if (stableFrames < 8 && attempts++ < 120) {
+        animationFrame = requestAnimationFrame(scrollToSection);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(scrollToSection);
+
+    return () => cancelAnimationFrame(animationFrame);
+  }, [location.pathname, location.hash]);
 
   useEffect(() => {
     if (location.pathname !== "/") {
@@ -49,25 +100,26 @@ const Navbar = () => {
     id: string,
   ) => {
     e.preventDefault();
-
     setMobileMenu(false);
 
-    // If not on Home, navigate there first
     if (location.pathname !== "/") {
-      window.location.href = `/#${id}`;
+      navigate(`/#${id}`);
       return;
     }
 
-    // Update the URL even if the hash is already the same
-    window.history.replaceState({}, "", `/#${id}`);
+    if (location.hash !== `#${id}`) {
+      navigate(`/#${id}`, { replace: true });
+      return;
+    }
 
     const element = document.getElementById(id);
 
     if (element) {
-      const y = element.getBoundingClientRect().top + window.pageYOffset - 96;
+      const targetTop =
+        element.getBoundingClientRect().top + window.scrollY - 96;
 
       window.scrollTo({
-        top: y,
+        top: targetTop,
         behavior: "smooth",
       });
     }

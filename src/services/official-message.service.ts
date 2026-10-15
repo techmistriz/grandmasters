@@ -1,4 +1,4 @@
-import api from "../axios";
+import api from "../network/axios";
 
 export const getOfficialMessages = async (eventTypeId: number) => {
   const res = await api.get(`/official-messages/${eventTypeId}`);

@@ -1,4 +1,4 @@
-import api from "../axios";
+import api from "../network/axios";
 
 export const addToCart = async (data: {
   event_type_id: number;

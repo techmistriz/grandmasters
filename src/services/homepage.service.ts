@@ -1,10 +1,10 @@
-import { APP_EVENT_TYPE } from "../../constant/config";
-import api from "../axios";
-import type { SponsorsResponse } from "../../types/summit.types";
+import { APP_EVENT_TYPE } from "../constant/config";
+import api from "../network/axios";
+import type { SponsorsResponse } from "../types/summit.types";
 import type {
   SummitEventsResponse,
   SummitGalleryResponse,
-} from "../../types/gallery.types";
+} from "../types/gallery.types";
 
 export const getEvents = async () => {
   const { data } = await api.get(`/events/${APP_EVENT_TYPE}`);

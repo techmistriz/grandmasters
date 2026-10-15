@@ -1,6 +1,6 @@
 // hooks/usePlans.ts
 import { useQuery } from "@tanstack/react-query";
-import { getPlans } from "../services/APIs/plans";
+import { getPlans } from "../services/plans.service";
 
 export const usePlans = () => {
   return useQuery({

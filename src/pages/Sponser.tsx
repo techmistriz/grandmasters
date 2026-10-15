@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import icon7 from "../assets/icons/icon7.png";
 import sponserImg from "../assets/images.png";
-import { getSponsors } from "../services/APIs/homePage";
+import { getSponsors } from "../services/homepage.service";
 import { useSponsors } from "../hooks/useSponsors";
 
 const imgUrl = import.meta.env.VITE_SPONSORS_BASE_URL;

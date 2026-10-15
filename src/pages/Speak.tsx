@@ -3,7 +3,7 @@ import img from "../assets/images/veta.jpg";
 import { TbBrandLinkedinFilled } from "react-icons/tb";
 import bgImg from "../assets/images/chess.jpg";
 import icon from "../assets/icons/icon1.png";
-import { getEvents } from "../services/APIs/homePage";
+import { getEvents } from "../services/homepage.service";
 import { handleImageError } from "../utils/imageUtils";
 import { FaLinkedinIn } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -218,7 +218,7 @@ const SpeakersSection = () => {
               { label: "SPEAK", to: "/#speak" },
               { label: "SPONSOR", to: "/#sponsor" },
               { label: "REGISTER NOW", to: "/#register" },
-              { label: "CONNECT", to: "/#contact" },
+              { label: "CONNECT", to: "/#connect" },
             ].map(({ label, to }) => (
               <Link
                 key={label}

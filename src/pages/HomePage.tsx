@@ -47,7 +47,7 @@ export default function HomePage() {
         <SponsorsPartners />
       </section>
 
-      <section id="contact" className="scroll-mt-24">
+      <section id="connect" className="scroll-mt-24">
         <ContactSection />
       </section>
     </>
