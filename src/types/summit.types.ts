@@ -49,9 +49,6 @@ export type SponsorsResponse = {
   };
 };
 
-
-
-
 export type AttendeePayload = {
   attendee_name: string;
   attendee_email: string;

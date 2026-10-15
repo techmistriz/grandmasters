@@ -4,11 +4,13 @@ import { submitShowcase } from "../services/showcase.service";
 import { toast } from "sonner";
 import ReCAPTCHA from "react-google-recaptcha";
 import { APP_EVENT_TYPE } from "../constant/config";
+import { FORM_TYPES } from "../constant/formtype";
 
 const GetInvolvedForm = () => {
   const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const [captchaToken, setCaptchaToken] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formdata, setFormdata] = useState({
     name: "",
@@ -32,9 +34,12 @@ const GetInvolvedForm = () => {
       return;
     }
 
+    setIsSubmitting(true);
+
     try {
       const payload = {
         event_type_id: APP_EVENT_TYPE,
+        form_type: FORM_TYPES.GET_INVOLVED,
         name: formdata.name,
         email: formdata.email,
         phone: formdata.phone,
@@ -42,7 +47,7 @@ const GetInvolvedForm = () => {
         captcha: captchaToken,
       };
 
-      const response = await submitShowcase(payload);
+      await submitShowcase(payload);
 
       toast.success("Submitted successfully!");
 
@@ -56,17 +61,14 @@ const GetInvolvedForm = () => {
       recaptchaRef.current?.reset();
       setCaptchaToken("");
     } catch (error: any) {
-      console.error("❌ API Error:", error);
-      console.error("Response:", error?.response);
-      console.error("Response Data:", error?.response?.data);
-      console.error("Status:", error?.response?.status);
-
       const message = error?.response?.data?.message || "Something went wrong";
 
       toast.error(message);
 
       recaptchaRef.current?.reset();
       setCaptchaToken("");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -164,9 +166,10 @@ const GetInvolvedForm = () => {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="w-[65%]  sm:w-auto px-10 py-2 border rounded-sm border-white text-white font-medium uppercase text-sm hover:bg-[#d0252d] hover:text-white cursor-pointer transition-all duration-300 bg-black/30"
+                disabled={isSubmitting}
+                className="w-[65%] sm:w-[130px] px-4 py-2 border rounded-sm border-white text-white font-medium uppercase text-sm hover:bg-[#d0252d] hover:text-white cursor-pointer transition-all duration-300 bg-black/30 disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                Submit
+                {isSubmitting ? "Submitting..." : "Submit"}
               </button>
             </div>
           </form>
