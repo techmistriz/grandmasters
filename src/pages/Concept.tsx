@@ -15,6 +15,7 @@ import icon2 from "../assets/icons/icon2.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Counter from "../components/Counter";
 import { useOfficialMessages } from "../hooks/useOfficialMessages";
+import { EVENT_CONFIG } from "../constant/config";
 
 /* ---------------- TABS ---------------- */
 const tabs = [
@@ -466,7 +467,14 @@ const Concept = () => {
               {[
                 { label: "SPEAK", to: "/#speak" },
                 { label: "SPONSOR", to: "/#sponsor" },
-                { label: "REGISTER NOW", to: "/#register" },
+                {
+                  label: EVENT_CONFIG.registrationOpen
+                    ? "REGISTER NOW"
+                    : "SUMMIT GALLERY",
+                  to: EVENT_CONFIG.registrationOpen
+                    ? "/#register"
+                    : "/#gallery",
+                },
                 { label: "CONNECT", to: "/#connect" },
               ].map(({ label, to }) => (
                 <Link
