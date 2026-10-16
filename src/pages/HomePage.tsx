@@ -36,7 +36,7 @@ export default function HomePage() {
       <section id="get-involved" className="scroll-mt-24">
         <GetInvolved />
       </section>
-      <section id="summit-gallery" className="scroll-mt-24">
+      <section id="gallery" className="scroll-mt-24">
         <SummitGallery />
       </section>
       <section id="brand-sponsor" className="scroll-mt-24">

@@ -19,6 +19,7 @@ import ld from "../assets/icons/linkedin-icon.png";
 import tw from "../assets/icons/x-icon.png";
 import wh from "../assets/icons/whatsapp-icon.png";
 import { Target } from "lucide-react";
+import { EVENT_CONFIG } from "../constant/config";
 
 const socialIcons = [
   {
@@ -217,9 +218,14 @@ const Home = () => {
 
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mt-2 md:mt-4 pb-12 md:pb-20 w-full sm:w-auto text-[14px] leading-5 font-custom">
-            <Link to="/#register" className="w-[65%] sm:w-auto">
+            <Link
+              to={EVENT_CONFIG.registrationOpen ? "/#register" : "/#gallery"}
+              className="w-[65%] sm:w-auto"
+            >
               <button className="w-full text-[#D0252D] px-2 py-3 border border-[#D0252D] hover:bg-[#D0252D] hover:text-white transition rounded-sm font-bold tracking-[0.26rem] bg-white/70 cursor-pointer">
-                REGISTER NOW
+                {EVENT_CONFIG.registrationOpen
+                  ? "REGISTER NOW"
+                  : "SUMMIT GALLERY"}
               </button>
             </Link>
 

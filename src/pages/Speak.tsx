@@ -7,6 +7,7 @@ import { getEvents } from "../services/homepage.service";
 import { handleImageError } from "../utils/imageUtils";
 import { FaLinkedinIn } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { EVENT_CONFIG } from "../constant/config";
 
 const imgUrl = import.meta.env.VITE_SPEAKERS_BASE_URL;
 const SpeakersSection = () => {
@@ -217,7 +218,12 @@ const SpeakersSection = () => {
             {[
               { label: "SPEAK", to: "/#speak" },
               { label: "SPONSOR", to: "/#sponsor" },
-              { label: "REGISTER NOW", to: "/#register" },
+              {
+                label: EVENT_CONFIG.registrationOpen
+                  ? "REGISTER NOW"
+                  : "SUMMIT GALLERY",
+                to: EVENT_CONFIG.registrationOpen ? "/#register" : "/#gallery",
+              },
               { label: "CONNECT", to: "/#connect" },
             ].map(({ label, to }) => (
               <Link

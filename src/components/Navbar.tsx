@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { HiMenu, HiX } from "react-icons/hi";
+import { EVENT_CONFIG } from "../constant/config";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -125,6 +126,12 @@ const Navbar = () => {
     }
   };
 
+  const registrationOpen = EVENT_CONFIG.registrationOpen;
+
+  const actionLabel = registrationOpen ? "Register Now" : "Summit Gallery";
+
+  const actionPath = registrationOpen ? "/#register" : "/#gallery";
+
   return (
     <nav className="fixed top-0 left-0 z-50 w-full bg-[#E9E9E9] shadow-sm">
       {/* Navbar */}
@@ -187,12 +194,16 @@ const Navbar = () => {
 
         {/* Desktop Register */}
         <Link
-          to="/#register"
-          onClick={(e) => handleSectionClick(e, "register")}
+          to={actionPath}
+          onClick={(e) => {
+            if (registrationOpen) {
+              handleSectionClick(e, "register");
+            }
+          }}
           className="hidden md:block"
         >
-          <button className="rounded-sm border border-[#D0252D] px-3 py-3 text-sm font-bold uppercase tracking-[4px] text-[#D0252D] transition hover:bg-[#D0252D] hover:text-white cursor-pointer">
-            Register Now
+          <button className="cursor-pointer rounded-sm border border-[#D0252D] px-3 py-3 text-sm font-bold uppercase tracking-[4px] text-[#D0252D] transition hover:bg-[#D0252D] hover:text-white">
+            {actionLabel}
           </button>
         </Link>
 
@@ -246,11 +257,17 @@ const Navbar = () => {
           })}
 
           <Link
-            to="/#register"
-            onClick={(e) => handleSectionClick(e, "register")}
+            to={actionPath}
+            onClick={(e) => {
+              setMobileMenu(false);
+
+              if (registrationOpen) {
+                handleSectionClick(e, "register");
+              }
+            }}
           >
             <button className="mt-5 w-full rounded-sm border border-[#D0252D] py-3 text-sm font-bold uppercase tracking-[3px] text-[#D0252D] transition hover:bg-[#D0252D] hover:text-white">
-              Register Now
+              {actionLabel}
             </button>
           </Link>
         </div>
