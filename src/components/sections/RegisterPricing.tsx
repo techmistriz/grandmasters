@@ -5,6 +5,7 @@ import { useState, type CSSProperties } from "react";
 import CitySelectorModal from "@/src/components/common/CityPopup";
 import { useEvents } from "@/src/hooks/useEvents";
 import { usePlans } from "@/src/hooks/usePlans";
+import type { Plan } from "@/src/types/event.type";
 
 const PLAN_COLORS = ["#b9e3df", "#ebc9ec", "#9bc9fc", "#aaef92"];
 
@@ -13,6 +14,34 @@ const TAG_COLORS: Record<string, string> = {
   "MOST PREFERRED": "#2e9b22",
 };
 const DEFAULT_TAG_COLOR = "#D0252D";
+
+// Badges for specific plans, matched on title; these win over the API tag.
+const PLAN_TAGS: [match: string, tag: string][] = [
+  ["corporate registration", "Trending"],
+  ["annual pass", "Most Preferred"],
+];
+
+const getPlanTag = (plan: Plan) => {
+  const title = (plan.title ?? "").toLowerCase();
+  const match = PLAN_TAGS.find(([key]) => title.includes(key));
+
+  return match ? match[1] : plan.tag?.trim();
+};
+
+function PlanTag({ tag }: { tag?: string | null }) {
+  if (!tag) return null;
+
+  const label = tag.toUpperCase();
+
+  return (
+    <div
+      className="absolute left-1/2 top-[-16px] -translate-x-1/2 whitespace-nowrap rounded-[5px] px-[11px] py-[4px] text-[14px] leading-[25px] text-white"
+      style={{ backgroundColor: TAG_COLORS[label] ?? DEFAULT_TAG_COLOR }}
+    >
+      {label}
+    </div>
+  );
+}
 
 function SkeletonCard() {
   return (
@@ -58,18 +87,7 @@ export default function RegisterPricing() {
                     } as CSSProperties
                   }
                 >
-                  {plan.tag && (
-                    <div
-                      className="absolute left-1/2 top-[-16px] -translate-x-1/2 whitespace-nowrap rounded-[5px] px-[11px] py-[4px] text-[14px] leading-[25px] text-white"
-                      style={{
-                        backgroundColor:
-                          TAG_COLORS[plan.tag.trim().toUpperCase()] ??
-                          DEFAULT_TAG_COLOR,
-                      }}
-                    >
-                      {plan.tag.toUpperCase()}
-                    </div>
-                  )}
+                  <PlanTag tag={getPlanTag(plan)} />
 
                   <div className="text-center">
                     <h3 className="mt-5 min-h-[22px] text-[16px] font-semibold leading-[22px] text-[#D0252D]">
