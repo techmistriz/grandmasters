@@ -76,12 +76,15 @@ export default function WhyJoin() {
     try {
       await submitShowcase({
         event_type_id: APP_EVENT_TYPE,
-        form_type: FORM_TYPES.GET_INVOLVED,
+        form_type: FORM_TYPES.AGENDA_HIGHLIGHTS,
         name: formdata.name,
         email: formdata.email,
-        phone: `${formdata.countryCode} ${formdata.phone}`,
-        // Submitting the form is the consent shown under the button.
-        confirmation: true,
+        // Indian numbers go as plain digits, as the API expects; others
+        // keep their country code so they stay reachable.
+        phone:
+          formdata.countryCode === "+91"
+            ? formdata.phone
+            : `${formdata.countryCode} ${formdata.phone}`,
         captcha: captchaToken,
       });
 
