@@ -3,4 +3,5 @@ export const FORM_TYPES = {
   AGENDA_HIGHLIGHTS: "AGENDA HIGHLIGHTS",
   SHOWCASE: "Showcase",
   NUMBER: "Number",
+  SPEAKERS: "Speakers",
 } as const;
