@@ -6,18 +6,11 @@ interface ShowcasePayload {
   name: string;
   email: string;
   phone: string;
-  confirmation?: boolean;
   captcha: string;
 }
 
 export const submitShowcase = async (payload: ShowcasePayload) => {
-  const { confirmation, ...rest } = payload;
-
-  // Only the Get Involved form has the updates checkbox.
-  const res = await api.post("/showcase", {
-    ...rest,
-    ...(confirmation !== undefined && { confirmation: confirmation ? 1 : 0 }),
-  });
+  const res = await api.post("/showcase", payload);
 
   return res.data;
 };
