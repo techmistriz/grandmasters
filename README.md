@@ -1,16 +1,47 @@
-# React + Vite
+# The Grand Masters 2026
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Next.js site for The Grand Masters summit series. It shares the Laravel
+"LW Events" API and project structure with the BFLS site
+([techmistriz/bfls-fe](https://github.com/techmistriz/bfls-fe)).
 
-Currently, two official plugins are available:
+## Getting started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+cp .env.example .env.local   # fill in the API and asset URLs
+npm run dev:local            # or: npm run dev
+```
 
-## React Compiler
+Open [http://localhost:3000](http://localhost:3000).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Scripts
 
-## Expanding the ESLint configuration
+| Script              | What it does                              |
+| ------------------- | ----------------------------------------- |
+| `npm run dev`       | Next.js dev server                        |
+| `npm run dev:local` | Dev server with `.env.local`              |
+| `npm run dev:live`  | Dev server with `.env.live`               |
+| `npm run build`     | Production build                          |
+| `npm run start`     | Serve the production build                |
+| `npm run check`     | Typecheck, lint and Prettier (pre-commit) |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Structure
+
+```
+src/
+  app/            routes (App Router); pages that need the browser use a *Client.tsx
+  components/
+    layout/       Header, Footer
+    sections/     homepage sections
+    common/       shared widgets (sidebar, sponsor carousel, city picker, ...)
+  config/         API URLs, event type, feature flags
+  data/           static content
+  hooks/          data hooks (useEvents, useCart, ...)
+  network/        axios instance + cart token
+  services/       API calls
+  types/, utils/
+```
+
+`src/config/event.ts` toggles `registrationOpen` (Register Now vs Summit
+Gallery CTAs). `src/config/eventType.config.ts` holds the event type id sent
+to the API (Grand Masters = 1).

@@ -12,13 +12,8 @@ interface ShowcasePayload {
 
 export const submitShowcase = async (payload: ShowcasePayload) => {
   const res = await api.post("/showcase", {
-    event_type_id: payload.event_type_id,
-    form_type: payload.form_type,
-    name: payload.name,
-    email: payload.email,
-    phone: payload.phone,
+    ...payload,
     confirmation: payload.confirmation ? 1 : 0,
-    captcha: payload.captcha,
   });
 
   return res.data;

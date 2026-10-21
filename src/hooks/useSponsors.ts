@@ -1,12 +1,29 @@
-// hooks/useSponsors.ts
+"use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { getSponsors } from "../services/homepage.service";
+import { useEffect, useState } from "react";
+import { getSponsors } from "../services/homePage";
+import type { Sponsor } from "@/src/types/event.type";
+import { cachedRequest } from "../utils/cachedRequest";
 
-export const useSponsors = () => {
-  return useQuery({
-    queryKey: ["sponsors"],
-    queryFn: getSponsors,
-    staleTime: 1000 * 60 * 10,
-  });
-};
+export function useSponsors() {
+  const [sponsors, setSponsors] = useState<Sponsor[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSponsors = async () => {
+      try {
+        const response = await cachedRequest("sponsors", getSponsors);
+
+        setSponsors(response.data?.margedSponsors ?? []);
+      } catch (err) {
+        console.error("Failed to fetch sponsors:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSponsors();
+  }, []);
+
+  return { sponsors, loading };
+}

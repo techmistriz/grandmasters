@@ -20,3 +20,7 @@ Thumbs.db
 # Editor settings
 .vscode/
 .idea/
+# Next.js
+*.tsbuildinfo
+next-env.d.ts
+.vercel
