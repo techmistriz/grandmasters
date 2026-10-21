@@ -32,14 +32,7 @@ const socialIcons = [
   },
 ];
 
-const desiredOrder = [
-  "Pune",
-  "Chennai",
-  "New Delhi",
-  "Mumbai",
-  "Bengaluru",
-  "Hyderabad",
-];
+const desiredOrder = ["New Delhi", "Mumbai", "Bengaluru", "Hyderabad"];
 
 const buttonClass =
   "block w-full text-center text-[#D0252D] px-2 py-3 border border-[#D0252D] hover:bg-[#D0252D] hover:text-white transition rounded-sm tracking-[0.26rem] bg-white/70 cursor-pointer";
@@ -60,8 +53,8 @@ export default function Hero() {
     );
 
     return {
-      lineOne: `${orderedCities.slice(0, 4).join(", ")},`,
-      lineTwo: `${orderedCities.slice(4).join(" & ")} Editions - Launching Soon!`,
+      lineOne: `${orderedCities.slice(0, -2).join(", ")},`,
+      lineTwo: `${orderedCities.slice(-2).join(" & ")} Editions - Launching Soon!`,
     };
   }, [cities]);
 
