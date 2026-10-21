@@ -93,9 +93,10 @@ export default function SummitGallery() {
     }
   };
 
-  // Move indicator when active tab changes
+  // Move indicator when the tabs render, the active tab changes or the
+  // window resizes. The tabs only mount once loading ends, so wait for it.
   useLayoutEffect(() => {
-    if (!events.length || !activeTab) return;
+    if (loading || !events.length || !activeTab) return;
 
     const index = events.findIndex((item) => item.city?.name === activeTab);
 
@@ -104,9 +105,15 @@ export default function SummitGallery() {
     const frame = requestAnimationFrame(() => {
       updateIndicator(index);
     });
+    const handleResize = () => updateIndicator(index);
 
-    return () => cancelAnimationFrame(frame);
-  }, [events, activeTab]);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [loading, events, activeTab]);
 
   const handleTabClick = async (event: Event, index: number) => {
     setActiveTab(event.city?.name ?? "");
@@ -188,7 +195,7 @@ export default function SummitGallery() {
         </div>
 
         <h2 className="text-[#333] mb-2 text-2xl sm:text-4xl md:text-[50px] font-normal">
-          2025 - 26 Summit Gallery
+          2026 Editions Summit Gallery
         </h2>
 
         <p className="text-[#8D93A0] text-sm md:text-[15px] mb-8 md:mb-12">
@@ -216,7 +223,7 @@ export default function SummitGallery() {
                       : "text-[#333] hover:text-black"
                   }`}
                 >
-                  {event.city?.name} Edition
+                  {event.city?.name}
                 </button>
               ))}
             </div>
