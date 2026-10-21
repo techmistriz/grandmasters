@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { FaLinkedinIn } from "react-icons/fa";
 
-import GetInvolvedCTA from "@/src/components/common/GetInvolvedCTA";
+import SpeakersLounge from "@/src/components/sections/SpeakersLounge";
 import { useEvents } from "@/src/hooks/useEvents";
 import type { EventSpeaker } from "@/src/types/event.type";
 import { getSpeakerImageUrl, handleImageError } from "@/src/utils/image";
@@ -149,7 +149,7 @@ export default function Speakers() {
         </div>
       </div>
 
-      <GetInvolvedCTA />
+      <SpeakersLounge />
     </section>
   );
 }
