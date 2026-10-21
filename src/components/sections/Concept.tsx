@@ -6,6 +6,7 @@ import { FaVolumeUp, FaUsers, FaStar } from "react-icons/fa";
 
 import Counter from "@/src/components/common/Counter";
 import GetInvolvedCTA from "@/src/components/common/GetInvolvedCTA";
+import WhyJoin from "@/src/components/sections/WhyJoin";
 import { useOfficialMessages } from "@/src/hooks/useOfficialMessages";
 import { getOfficialMessageHref } from "@/src/utils/officialMessage";
 import { getOfficialMessageImageUrl } from "@/src/utils/image";
@@ -69,7 +70,7 @@ export default function Concept() {
         {/* HEADER */}
         <div className="backdrop-blur-md bg-white shadow-xl px-5 py-8 md:p-10 flex flex-col items-center">
           <img src="/icons/icon3d.png" alt="" className="h-14 bg-white" />
-          <h2 className="font-roboto text-[34px] sm:text-4xl md:text-[50px] leading-tight md:leading-[1.1] tracking-tight md:tracking-[-0.05em] text-[#333333] text-center my-3 px-2">
+          <h2 className="font-roboto text-[34px] sm:text-4xl md:text-[50px] leading-tight md:leading-[1.1] tracking-tight md:tracking-[-0.04em] font-medium text-[#111] text-center my-3 px-2">
             Are You A Grand Master?
           </h2>
 
@@ -80,15 +81,15 @@ export default function Concept() {
           </p>
 
           {/* TABS */}
-          <div className="relative flex flex-col md:flex-row justify-center gap-3 md:gap-20 mt-8 border-b border-gray-300 pb-4 w-full md:w-fit mx-auto">
+          <div className="relative flex flex-col md:flex-row justify-around gap-3 md:gap-10 mt-8 border-b border-gray-200 w-full max-w-5xl mx-auto">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActive(tab.id)}
-                className={`w-full md:w-auto flex items-center justify-center gap-3 md:gap-12 py-2 font-bold text-xs sm:text-sm md:text-[15px] cursor-pointer ${
+                className={`w-full md:w-auto flex items-center justify-center gap-3 md:gap-6 pt-2 pb-4 -mb-px border-b-2 font-semibold tracking-[0.1em] text-xs sm:text-sm md:text-[15px] cursor-pointer transition-colors ${
                   active === tab.id
-                    ? "text-[#D0252D]"
-                    : "text-[#333] hover:text-[#D0252D]"
+                    ? "text-[#D0252D] border-[#D0252D]"
+                    : "text-[#333] border-transparent hover:text-[#D0252D]"
                 }`}
               >
                 {tab.icon}
@@ -122,87 +123,7 @@ export default function Concept() {
           {/* ---------------- TAB CONTENT ---------------- */}
 
           {/* AGENDA TAB */}
-          {active === "agenda" && (
-            <div className="font-roboto text-[15px] md:text-[15px] flex flex-col md:flex-row items-center gap-6 mt-8 px-5 max-w-5xl mx-auto text-left">
-              <div className="flex justify-center shrink-0">
-                <img
-                  src="/images/agenda-highlights1.jpg"
-                  className="w-full max-w-[260px] md:max-w-64 rounded-lg object-contain"
-                  alt="Agenda"
-                />
-              </div>
-              <div className="flex-1    text-[#333]">
-                <p className="mb-2">
-                  There Are In-House Counsel and There Are Grand Masters.
-                  <span className="text-[#cd151d] font-semibold"> Choose.</span>
-                </p>
-
-                <p className="mb-2">
-                  Do You Choose Client Delight Over the Billing Delight?
-                  <span className="text-[#cd151d] font-semibold">
-                    Stand Out.
-                  </span>
-                </p>
-
-                <p className="mb-2">
-                  Have You Moved on from Court Room to Board Room?
-                  <span className="text-[#cd151d] font-semibold">
-                    Differentiate.
-                  </span>
-                </p>
-
-                <p className="my-2">
-                  Here’s a Wire-frame of the Power-Packed Sessions for the
-                  Summit:
-                </p>
-
-                <ul className="space-y-1">
-                  <li>
-                    #The{" "}
-                    <span className="text-[#cd151d] font-semibold">
-                      Strategic Counsel
-                    </span>{" "}
-                    – Are You Future Ready?
-                  </li>
-                  <li>
-                    #India Inc. 3.0 –{" "}
-                    <span className="text-[#cd151d] font-semibold">
-                      Pharma & Lifesciences Track
-                    </span>{" "}
-                    – Hyderabad Special
-                  </li>
-                  <li>
-                    #India Inc. 3.0 –{" "}
-                    <span className="text-[#cd151d] font-semibold">
-                      Pharma & Lifesciences Track
-                    </span>{" "}
-                    – Ahmedabad Special
-                  </li>
-                  <li>
-                    #India Inc. 3.0 –{" "}
-                    <span className="text-[#cd151d] font-semibold">
-                      Real Estate & Infra Track
-                    </span>{" "}
-                    – Hyderabad Special
-                  </li>
-                  <li>
-                    #The{" "}
-                    <span className="text-[#cd151d] font-semibold">
-                      Intellectual
-                    </span>{" "}
-                    You – IP in the Age of AI
-                  </li>
-                  <li>
-                    #The New India{" "}
-                    <span className="text-[#cd151d] font-semibold">
-                      Dispute Resolution
-                    </span>{" "}
-                    Wave – Smart Enough?
-                  </li>
-                </ul>
-              </div>
-            </div>
-          )}
+          {active === "agenda" && <WhyJoin />}
 
           {/* AUDIENCE TAB */}
           {active === "audience" && (
