@@ -1,231 +1,211 @@
 import Link from "next/link";
+import { FaArrowRight, FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
+import { LuMail } from "react-icons/lu";
+
+const WHATSAPP_URL =
+  "https://api.whatsapp.com/send?phone=919899332111&text=Hello%2C%20I%20am%20interested%20in%20The%20Grand%20Masters%202026%20Summit%20Series";
+const LINKEDIN_URL = "https://www.linkedin.com/company/389718/";
+
+const siteLinks = [
+  { label: "Home", href: "/" },
+  { label: "Concept", href: "/#concept" },
+  { label: "Agenda", href: "/#agenda" },
+  { label: "Speak", href: "/#speak" },
+  { label: "Sponsor", href: "/#sponsor" },
+  { label: "Past Editions", href: "/past-editions" },
+  { label: "Connect", href: "/#connect" },
+];
+
+const summits = [
+  {
+    name: "Banking & Finance Legal Summit",
+    city: "Mumbai",
+    href: "https://www.bfls.in",
+  },
+  {
+    name: "IT Legal Summit",
+    city: "Bengaluru",
+    href: "https://www.itlegalsummit.com",
+  },
+  {
+    name: "Media, Advertising & Entertainment Legal Summit",
+    city: "Mumbai",
+    href: "https://www.maels.in",
+  },
+  {
+    name: "Pharma Legal & Compliance Summit",
+    city: "Mumbai",
+    href: "https://www.plcs.co.in",
+  },
+  {
+    name: "Real Estate & Construction Legal Summit",
+    city: "New Delhi",
+    href: "https://www.rcls.in",
+  },
+];
+
+// Grand Masters has no policy pages of its own; these are the shared Lex
+// Witness ones.
+const legalLinks = [
+  { label: "Privacy Policy", href: "https://www.bfls.in/privacy-policy" },
+  { label: "Terms of Use", href: "https://www.bfls.in/terms-conditions" },
+];
+
+const socials = [
+  { label: "LinkedIn", href: LINKEDIN_URL, icon: <FaLinkedinIn size={18} /> },
+  { label: "WhatsApp", href: WHATSAPP_URL, icon: <FaWhatsapp size={20} /> },
+];
 
 export default function Footer() {
   return (
-    <footer className="w-full">
+    <footer className="w-full font-roboto">
       {/* Top Section */}
-      <div className="bg-[#e5e5e5] px-4 sm:px-6 md:px-10 lg:px-16 py-12 md:py-8">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 md:px-5 gap-10 lg:gap-14">
+      <div className="relative overflow-hidden bg-gradient-to-r from-[#f7f7f7] to-[#efefef]">
+        <img
+          src="/images/footer-king.jpg"
+          alt=""
+          className="hidden 2xl:block absolute right-0 top-0 h-full w-auto [mask-image:linear-gradient(to_right,transparent,black_30%)]"
+        />
+
+        <div className="relative max-w-[1500px] mx-auto px-5 sm:px-8 2xl:pr-[360px] py-12 md:py-16 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[1fr_1.05fr_1.9fr] gap-10 xl:gap-0 xl:divide-x xl:divide-[#d9d9d9]">
           {/* About */}
-          <div>
-            <h2 className="text-lg md:text-xl font-bold mb-5 font-roboto">
-              About Lex <span className="text-[#D0252D]">Witness</span>
-            </h2>
-
-            <p className="text-[13px] leading-6 text-black font-roboto">
-              Lex Witness, ever since its inception in 2009, has become India’s
-              most credible platform for the legal luminaries here to opine,
-              comment and share their views. With an interesting blend of
-              opinion pieces, commentary, reportage, analysis, interviews and
-              movements, Lex Witness is for the entire fraternity of In House
-              and External Counsel besides key decision makers, luminaries,
-              experts, policy makers, bureaucracy and the industry captains in
-              India.
+          <div className="xl:pr-10">
+            <img
+              src="/images/image.png"
+              alt="Lex Witness – India's First Magazine on Legal and Corporate Affairs"
+              className="w-[240px]"
+            />
+            <span className="block mt-5 w-14 h-0.5 bg-[#D0252D]" />
+            <p className="mt-5 text-[15px] leading-relaxed text-[#555]">
+              India&apos;s pioneering legal and corporate affairs platform,
+              connecting the in-house and external counsel community since 2009.
             </p>
-
-            <div className="mt-8">
-              <img
-                src="/images/image.png"
-                alt="Lex Witness"
-                className="w-[180px] sm:w-[220px]"
-              />
+            <a
+              href="mailto:info@witnesslive.in"
+              className="mt-6 inline-flex items-center gap-3 text-[17px] text-[#222] hover:text-[#D0252D] transition"
+            >
+              <LuMail size={24} className="text-[#D0252D]" />
+              info@witnesslive.in
+            </a>
+            <div className="mt-6 flex gap-4">
+              {socials.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  className="flex items-center justify-center w-12 h-12 rounded-full border border-[#222] text-[#222] hover:bg-[#D0252D] hover:border-[#D0252D] hover:text-white transition"
+                >
+                  {social.icon}
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Showcase */}
-          <div className="font-roboto">
-            <h2 className="text-lg md:text-xl font-bold mb-5">
-              Lex <span className="text-[#D0252D]">Witness</span> Summits
-              Showcase
+          {/* The Grand Masters */}
+          <div className="xl:px-10">
+            <h2 className="text-[22px] md:text-[24px] font-bold text-[#141414] whitespace-nowrap">
+              The Grand Masters
             </h2>
-
-            <div className="space-y-6">
-              <div>
-                <h3 className="font-bold text-[13px] leading-6">
-                  The 11th Annual IT Legal Summit 2026 / Bengaluru
-                </h3>
-
-                <p className="text-[13px] leading-6">
-                  IT / ITeS / e-Commerce / Gaming & More
-                </p>
-
-                <p className="text-[13px] mt-2">
-                  To access past editions, visit{" "}
-                  <a
-                    href="https://www.itlegalsummit.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#D0252D] hover:underline"
+            <span className="block mt-4 w-14 h-1 bg-[#D0252D]" />
+            <ul className="mt-6">
+              {siteLinks.map((link) => (
+                <li key={link.label} className="border-b border-[#dcdcdc]">
+                  <Link
+                    href={link.href}
+                    className="group flex items-center justify-between py-2 text-[17px] text-[#222] hover:text-[#D0252D] transition"
                   >
-                    www.itlegalsummit.com
-                  </a>
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-bold text-[13px] leading-6">
-                  The 12th Annual Grand Masters 2026
-                </h3>
-
-                <p className="text-[13px] leading-6 mt-2">
-                  A 7-city pan-India General Counsel Summit Series
-                </p>
-
-                <ul className="mt-4 space-y-1 text-[13px] font-bold">
-                  <li>Hyderabad Edition</li>
-                  <li>Pune Edition</li>
-                  <li>Chennai Edition</li>
-                  <li>Ahmedabad Edition</li>
-                  <li>New Delhi Edition</li>
-                  <li>Mumbai Edition</li>
-                  <li>Bengaluru Edition</li>
-                </ul>
-
-                <p className="text-[13px] mt-5">
-                  To access past editions, visit{" "}
-                  <a
-                    href="https://www.grandmasters.in"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#D0252D] hover:underline"
-                  >
-                    www.grandmasters.in
-                  </a>
-                </p>
-              </div>
-            </div>
+                    {link.label}
+                    <FaArrowRight
+                      size={14}
+                      className="text-[#D0252D] transition-transform group-hover:translate-x-1"
+                    />
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Events */}
-          <div className="font-roboto">
-            <div className="space-y-6">
-              <div>
-                <h3 className="font-bold text-[13px] leading-6">
-                  The 11th Annual Media, Advertising & Entertainment Legal
-                  Summit 2026 / Mumbai
-                </h3>
-
-                <p className="text-[13px] leading-6">
-                  A Cross-Sectional Legal Dig on M&E Sector & More
-                </p>
-                <p className="text-[13px] mt-2">
-                  To access past editions, visit{" "}
+          {/* Flagship Summits */}
+          <div className="md:col-span-2 xl:col-span-1 xl:pl-10">
+            <h2 className="text-[22px] md:text-[24px] font-bold text-[#141414]">
+              The Lex Witness Annual Flagship Summits
+            </h2>
+            <span className="block mt-4 w-14 h-1 bg-[#D0252D]" />
+            <ul className="mt-5">
+              {summits.map((summit) => (
+                <li key={summit.href} className="border-b border-[#dcdcdc]">
                   <a
-                    href="https://www.maels.in"
+                    href={summit.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#D0252D] hover:underline"
+                    className="group flex items-center justify-between gap-4 py-3.5 text-[15px] md:text-[16px] text-[#222] hover:text-[#D0252D] transition"
                   >
-                    www.maels.in
+                    <span>
+                      {summit.name}
+                      <span className="mx-3 text-[#bbb]">|</span>
+                      <span className="text-[#666]">{summit.city}</span>
+                    </span>
+                    <FaArrowRight
+                      size={14}
+                      className="shrink-0 text-[#D0252D] transition-transform group-hover:translate-x-1"
+                    />
                   </a>
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-bold text-[13px] leading-6">
-                  The 12th Annual Pharma Legal & Compliance Summit 2026 / Mumbai
-                </h3>
-
-                <p className="text-[13px] leading-6">
-                  Pharma / Healthcare / Medical Devices & More
-                </p>
-
-                <p className="text-[13px] mt-2">
-                  To access past editions, visit{" "}
-                  <a
-                    href="https://www.plcs.co.in"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#D0252D] hover:underline"
-                  >
-                    www.plcs.co.in
-                  </a>
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-bold text-[13px] leading-6">
-                  The 9th Annual Banking & Finance Legal Summit 2026 / Mumbai
-                </h3>
-
-                <p className="text-[13px] leading-6">
-                  Banking / Crypto / Fintech & More
-                </p>
-
-                <p className="text-[13px] mt-2">
-                  To access past editions, visit{" "}
-                  <a
-                    href="https://www.bfls.in"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#D0252D] hover:underline"
-                  >
-                    www.bfls.in
-                  </a>
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-bold text-[13px] leading-6">
-                  The 13th Annual Real Estate & Construction Legal Summit 2027 /
-                  New Delhi
-                </h3>
-
-                <p className="text-[13px] leading-6">
-                  Real Estate / Infra / Construction & More
-                </p>
-
-                <p className="text-[13px] mt-2">
-                  To access past editions, visit{" "}
-                  <a
-                    href="https://www.rcls.in"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#D0252D] hover:underline"
-                  >
-                    www.rcls.in
-                  </a>
-                </p>
-              </div>
-            </div>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
 
       {/* Bottom Bar */}
-      <div className="bg-[#1f2125] text-white px-4 sm:px-6 md:px-10 lg:px-16 md:py-5.5 py-5 font-roboto">
-        <div className="max-w-6xl mx-auto flex flex-col md:px-4  lg:flex-row items-center justify-between gap-5 text-center lg:text-left">
-          {/* Left */}
-          <div className="text-[13px] leading-6">
+      <div className="bg-[#1f2025] text-white">
+        <div className="max-w-[1500px] mx-auto px-5 sm:px-8 py-6 flex flex-col lg:flex-row items-center justify-between gap-5 text-center lg:text-left">
+          <div className="text-[14px] md:text-[15px] leading-relaxed text-white/85">
             <p>
-              Lex Witness - India&apos;s 1st Magazine on Legal & Corporate
-              Affairs
+              © 2026 Lex Witness
+              <span className="mx-3 text-white/40">|</span>A Unit of SriGro
+              Interactive Pvt. Ltd.
             </p>
-            <p>A Unit of SriGro Interactive Pvt Ltd.</p>
+            <p>All Rights Reserved.</p>
           </div>
 
-          {/* Center */}
-          <div className="hidden lg:flex items-center gap-8 text-[13px]">
-            <span>|</span>
-            <span>Rights of Admission Reserved</span>
-            <span>|</span>
-          </div>
+          <div className="flex flex-col sm:flex-row items-center gap-5">
+            <nav className="flex flex-wrap justify-center items-center text-[14px] md:text-[15px] text-white/85">
+              {legalLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 border-r border-white/30 hover:text-[#ff4b52] transition"
+                >
+                  {link.label}
+                </a>
+              ))}
+              <Link
+                href="/summit-secretariat"
+                className="px-4 hover:text-[#ff4b52] transition"
+              >
+                Summit Secretariat
+              </Link>
+            </nav>
 
-          {/* Right */}
-          <div className="flex flex-wrap justify-center gap-6 text-[13px]">
-            <Link
-              href="/about-lex-witness"
-              className="hover:text-[#D0252D] transition cursor-pointer"
-            >
-              About Lex Witness
-            </Link>
-
-            <Link
-              href="/summit-secretariat"
-              className="hover:text-[#D0252D] transition cursor-pointer"
-            >
-              Summit Secretariat
-            </Link>
+            <div className="flex gap-4 sm:pl-6 sm:border-l sm:border-white/30">
+              {socials.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  className="flex items-center justify-center w-11 h-11 rounded-full border border-white/70 hover:bg-[#D0252D] hover:border-[#D0252D] transition"
+                >
+                  {social.icon}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -234,7 +214,7 @@ export default function Footer() {
       <div className="fixed bottom-8 right-4 md:bottom-24 md:right-6 z-50 group">
         {/* Tooltip */}
         <a
-          href="https://api.whatsapp.com/send?phone=919899332111&text=Hello%2C%20I%20am%20interested%20in%20The%20Grand%20Masters%202026%20Summit%20Series"
+          href={WHATSAPP_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="font-roboto absolute right-16 top-1/2 -translate-y-1/2 bg-[#25D366] text-white text-[15px] font-normal leading-6 px-3 py- rounded-lg opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-2 transition-all duration-200 whitespace-nowrap cursor-pointer"
@@ -244,7 +224,7 @@ export default function Footer() {
 
         {/* Button */}
         <a
-          href="https://api.whatsapp.com/send?phone=919899332111&text=Hello%2C%20I%20am%20interested%20in%20The%20Grand%20Masters%202026%20Summit%20Series"
+          href={WHATSAPP_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="
