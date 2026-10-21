@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 
 import Header from "@/src/components/layout/Header";
 import Footer from "@/src/components/layout/Footer";
+import RecaptchaProvider from "@/src/components/providers/RecaptchaProvider";
 import { siteConfig } from "@/src/config/site.config";
 
 const shareDescription =
@@ -66,10 +67,12 @@ export default function RootLayout({
   return (
     <html lang="en-US" data-scroll-behavior="smooth">
       <body>
-        <Header />
-        <main>{children}</main>
-        <Toaster position="bottom-right" />
-        <Footer />
+        <RecaptchaProvider>
+          <Header />
+          <main>{children}</main>
+          <Toaster position="bottom-right" />
+          <Footer />
+        </RecaptchaProvider>
       </body>
     </html>
   );

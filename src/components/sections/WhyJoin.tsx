@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import toast from "react-hot-toast";
 import { FaArrowRight } from "react-icons/fa";
 import {
@@ -16,7 +16,6 @@ import {
 import { submitShowcase } from "@/src/services/showcase.service";
 import { APP_EVENT_TYPE } from "@/src/config/eventType.config";
 import { FORM_TYPES } from "@/src/config/showcase.config";
-import { RECAPTCHA_SITE_KEYS } from "@/src/config/recaptcha.config";
 import { getErrorMessage } from "@/src/utils/error";
 
 const reasons = [
@@ -43,9 +42,8 @@ const countryCodes = ["+91", "+1", "+44", "+61", "+65", "+971"];
 const emptyForm = { name: "", email: "", countryCode: "+91", phone: "" };
 
 export default function WhyJoin() {
-  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
-  const [captchaToken, setCaptchaToken] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formdata, setFormdata] = useState(emptyForm);
 
@@ -58,22 +56,19 @@ export default function WhyJoin() {
     });
   };
 
-  const resetCaptcha = () => {
-    recaptchaRef.current?.reset();
-    setCaptchaToken("");
-  };
-
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (!captchaToken) {
-      toast.error("Please complete the reCAPTCHA.");
+    if (!executeRecaptcha) {
+      toast.error("reCAPTCHA is not ready. Please try again.");
       return;
     }
 
     setIsSubmitting(true);
 
     try {
+      const captcha = await executeRecaptcha("agenda_highlights");
+
       await submitShowcase({
         event_type_id: APP_EVENT_TYPE,
         form_type: FORM_TYPES.AGENDA_HIGHLIGHTS,
@@ -85,16 +80,14 @@ export default function WhyJoin() {
           formdata.countryCode === "+91"
             ? formdata.phone
             : `${formdata.countryCode} ${formdata.phone}`,
-        captcha: captchaToken,
+        captcha,
       });
 
       toast.success("Thank you! Our team will connect with you shortly.");
 
       setFormdata(emptyForm);
-      resetCaptcha();
     } catch (error) {
       toast.error(getErrorMessage(error, "Something went wrong"));
-      resetCaptcha();
     } finally {
       setIsSubmitting(false);
     }
@@ -220,15 +213,6 @@ export default function WhyJoin() {
                 className={inputClass}
               />
             </div>
-          </div>
-
-          <div className="origin-left scale-[0.9] sm:scale-100">
-            <ReCAPTCHA
-              ref={recaptchaRef}
-              sitekey={RECAPTCHA_SITE_KEYS.v2}
-              onChange={(token) => setCaptchaToken(token || "")}
-              onExpired={() => setCaptchaToken("")}
-            />
           </div>
 
           <button
