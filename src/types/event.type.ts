@@ -1,6 +1,7 @@
 export interface City {
   id?: number;
   name: string;
+  image?: string | null;
 }
 
 export interface Speaker {

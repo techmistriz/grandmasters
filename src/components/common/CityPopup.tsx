@@ -6,6 +6,7 @@ import { X } from "lucide-react";
 
 import { addToCart } from "@/src/services/cart.service";
 import { APP_EVENT_TYPE } from "@/src/config/eventType.config";
+import { API_ASSET_URLS } from "@/src/config/api.config";
 import type { Event } from "@/src/types/event.type";
 import { getErrorMessage } from "@/src/utils/error";
 
@@ -110,6 +111,8 @@ export default function CitySelectorModal({
                   <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gray-50">
                     <img
                       src={
+                        (event.city?.image &&
+                          `${API_ASSET_URLS.cities}${event.city.image}`) ||
                         cityIconMap[cityName] ||
                         event.icon ||
                         event.city_icon ||
