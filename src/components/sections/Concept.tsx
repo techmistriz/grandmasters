@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { FaVolumeUp, FaUsers, FaStar } from "react-icons/fa";
 
-import GetInvolvedCTA from "@/src/components/common/GetInvolvedCTA";
+import GetInvolvedBanner from "@/src/components/sections/GetInvolvedBanner";
 import WhyJoin from "@/src/components/sections/WhyJoin";
 import WhyTGM from "@/src/components/sections/WhyTGM";
 import { useOfficialMessages } from "@/src/hooks/useOfficialMessages";
@@ -274,7 +274,7 @@ export default function Concept() {
           </div>
         </div>
 
-        <GetInvolvedCTA />
+        <GetInvolvedBanner />
       </div>
     </section>
   );
