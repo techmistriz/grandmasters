@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { FaVolumeUp, FaUsers, FaStar } from "react-icons/fa";
 
-import Counter from "@/src/components/common/Counter";
 import GetInvolvedCTA from "@/src/components/common/GetInvolvedCTA";
 import WhyJoin from "@/src/components/sections/WhyJoin";
+import WhyTGM from "@/src/components/sections/WhyTGM";
 import { useOfficialMessages } from "@/src/hooks/useOfficialMessages";
 import { getOfficialMessageHref } from "@/src/utils/officialMessage";
 import { getOfficialMessageImageUrl } from "@/src/utils/image";
@@ -22,42 +22,13 @@ const tabs = [
   },
 ];
 
-/* ---------------- STATIC DATA ---------------- */
-const stats = [
-  { value: 7, label: "CITIES" },
-  { value: 200, suffix: "+", label: "SPEAKERS" },
-  { value: 35, suffix: "+", label: "SESSIONS" },
-  { value: 500, suffix: "+", label: "ATTENDEES" },
-];
-
 const LUMINARIES_YEAR = "2025";
 
 export default function Concept() {
   const [active, setActive] = useState("agenda");
-  const [startCount, setStartCount] = useState(false);
-  const statsRef = useRef<HTMLDivElement>(null);
 
   const { messagesByYear, loading } = useOfficialMessages();
   const luminaries = messagesByYear[LUMINARIES_YEAR] ?? [];
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setStartCount(true);
-        }
-      },
-      {
-        threshold: 0.3,
-      },
-    );
-
-    if (statsRef.current) {
-      observer.observe(statsRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <section
@@ -250,25 +221,8 @@ export default function Concept() {
           )}
         </div>
 
-        {/* STATS */}
-        <div ref={statsRef} className="w-full bg-black/30 py-12 md:py-22 px-4">
-          <div className="font-roboto max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {stats.map((stat, i) => (
-              <div key={i}>
-                <div className="text-3xl sm:text-5xl md:text-[80px] md:text-[80px] font-bold text-white">
-                  {startCount ? (
-                    <Counter end={stat.value} suffix={stat.suffix || ""} />
-                  ) : (
-                    0
-                  )}
-                </div>
-                <div className="text-white text-[10px] md:text-[11px] font-semibold tracking-[0.3rem]">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* WHY THE GRAND MASTERS */}
+        <WhyTGM />
 
         {/* LUMINARIES */}
         <div className="w-full bg-white pb-16 pt-4 px-4">
