@@ -40,7 +40,7 @@ export default function GetInvolvedForm() {
     setIsSubmitting(true);
 
     try {
-      const captcha = await executeRecaptcha("get_involved");
+      const captcha = await executeRecaptcha("submit");
 
       const payload = {
         event_type_id: APP_EVENT_TYPE,

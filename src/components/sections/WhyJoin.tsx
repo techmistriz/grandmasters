@@ -67,7 +67,7 @@ export default function WhyJoin() {
     setIsSubmitting(true);
 
     try {
-      const captcha = await executeRecaptcha("agenda_highlights");
+      const captcha = await executeRecaptcha("submit");
 
       await submitShowcase({
         event_type_id: APP_EVENT_TYPE,
