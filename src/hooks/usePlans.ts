@@ -1,13 +1,29 @@
-// hooks/usePlans.ts
-import { useQuery } from "@tanstack/react-query";
-import { getPlans } from "../services/plans.service";
+"use client";
+
+import { useEffect, useState } from "react";
+import { getPlans } from "../services/homePage";
+import type { Plan } from "@/src/types/event.type";
+import { cachedRequest } from "../utils/cachedRequest";
 
 export const usePlans = () => {
-  return useQuery({
-    queryKey: ["plans"],
-    queryFn: getPlans,
-    staleTime: 1000 * 60 * 10,
-    gcTime: 1000 * 60 * 30,
-    placeholderData: (previousData) => previousData,
-  });
+  const [plans, setPlans] = useState<Plan[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPlans = async () => {
+      try {
+        const response = await cachedRequest("plans", getPlans);
+
+        setPlans(response.data ?? []);
+      } catch (err) {
+        console.error("Failed to fetch plans:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPlans();
+  }, []);
+
+  return { plans, loading };
 };
