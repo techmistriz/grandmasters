@@ -98,7 +98,7 @@ export default function WhyTGM() {
 
       await submitShowcase({
         event_type_id: APP_EVENT_TYPE,
-        form_type: FORM_TYPES.WHY_TGM,
+        form_type: FORM_TYPES.NUMBER,
         name: formdata.name,
         email: formdata.email,
         // Indian numbers go as plain digits, as the API expects; others
