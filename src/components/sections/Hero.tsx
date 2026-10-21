@@ -163,14 +163,12 @@ export default function Hero() {
               </span>
             </Link>
 
-            <Link href="/#connect" className="w-[65%] sm:w-auto">
-              <span className={`${buttonClass} font-semibold`}>CONTACT US</span>
+            <Link href="/#agenda" className="w-[65%] sm:w-auto">
+              <span className={`${buttonClass} font-semibold`}>AGENDA</span>
             </Link>
 
-            <Link href="/past-editions" className="w-[65%] sm:w-auto">
-              <span className={`${buttonClass} font-semibold`}>
-                PAST EDITIONS
-              </span>
+            <Link href="/#speak" className="w-[65%] sm:w-auto">
+              <span className={`${buttonClass} font-semibold`}>SPEAKERS</span>
             </Link>
           </div>
         </div>
