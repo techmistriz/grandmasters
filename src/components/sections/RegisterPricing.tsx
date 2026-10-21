@@ -1,33 +1,51 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 
 import CitySelectorModal from "@/src/components/common/CityPopup";
 import { useEvents } from "@/src/hooks/useEvents";
 import { usePlans } from "@/src/hooks/usePlans";
+import type { Plan } from "@/src/types/event.type";
 
-const cardColors = [
-  "bg-[#C2E5DF]",
-  "bg-[#F3D4F3]",
-  "bg-[#FFCAA4]",
-  "bg-[#FFE9AE]",
+const PLAN_COLORS = ["#b9e3df", "#ebc9ec", "#9bc9fc", "#aaef92"];
+
+const TAG_COLORS: Record<string, string> = {
+  TRENDING: "#ff7a00",
+  "MOST PREFERRED": "#2e9b22",
+};
+const DEFAULT_TAG_COLOR = "#D0252D";
+
+// Badges for specific plans, matched on title; these win over the API tag.
+const PLAN_TAGS: [match: string, tag: string][] = [
+  ["corporate registration", "Trending"],
+  ["annual pass", "Most Preferred"],
 ];
+
+const getPlanTag = (plan: Plan) => {
+  const title = (plan.title ?? "").toLowerCase();
+  const match = PLAN_TAGS.find(([key]) => title.includes(key));
+
+  return match ? match[1] : plan.tag?.trim();
+};
+
+function PlanTag({ tag }: { tag?: string | null }) {
+  if (!tag) return null;
+
+  const label = tag.toUpperCase();
+
+  return (
+    <div
+      className="absolute left-1/2 top-[-16px] -translate-x-1/2 whitespace-nowrap rounded-[5px] px-[11px] py-[4px] text-[14px] leading-[25px] text-white"
+      style={{ backgroundColor: TAG_COLORS[label] ?? DEFAULT_TAG_COLOR }}
+    >
+      {label}
+    </div>
+  );
+}
 
 function SkeletonCard() {
   return (
-    <div className="animate-pulse flex flex-col pt-8 pb-5 px-4 md:px-6 rounded-xl bg-white shadow-[6px_6px_10px_rgba(0,0,0,0.1)]">
-      <div className="h-4 w-20 bg-gray-300 rounded mx-auto mb-4"></div>
-      <div className="h-5 w-32 bg-gray-300 rounded mx-auto mb-4"></div>
-      <div className="h-6 w-40 bg-gray-300 rounded mx-auto mb-4"></div>
-
-      <div className="space-y-2 mb-8">
-        <div className="h-3 bg-gray-200 rounded w-full"></div>
-        <div className="h-3 bg-gray-200 rounded w-5/6 mx-auto"></div>
-        <div className="h-3 bg-gray-200 rounded w-4/6 mx-auto"></div>
-      </div>
-
-      <div className="h-10 w-28 bg-gray-300 rounded mx-auto"></div>
-    </div>
+    <div className="min-h-[350px] animate-pulse rounded-[9px] bg-gray-200 shadow-[0_7px_10px_rgba(0,0,0,0.25)]" />
   );
 }
 
@@ -41,64 +59,70 @@ export default function RegisterPricing() {
   const [selectedPlanId, setSelectedPlanId] = useState<number | null>(null);
 
   return (
-    <section className="py-4 md:pb-16 font-roboto bg-[#f5f5f5]">
-      {/* Header */}
-      <div className="font-roboto max-w-6xl mx-auto text-center mb-8 px-4 md:px-2">
-        <div className="flex justify-center">
-          <img src="/icons/icon4.png" alt="" className="h-24" />
+    <section className="w-full font-roboto bg-[#f7f7f7] px-4 py-12 sm:px-6 lg:px-10">
+      <div className="mx-auto max-w-[1110px]">
+        {/* Header */}
+        <div className="mb-16 text-center">
+          <p className="text-[20px] font-medium text-[#D0252D] sm:text-[30px]">
+            It&apos;s a Race Against Time. Avail Best Possible Discounts Now.
+          </p>
+          <h2 className="text-[34px] font-extrabold leading-[1.15] tracking-[-1.5px] text-[#333] sm:text-[42px]">
+            Delegate Registrations
+          </h2>
+
+          <div className="mx-auto mt-[18px] h-[3px] w-[100px] bg-[#D0252D] sm:mt-[22px] sm:w-[120px]" />
         </div>
 
-        <h2 className="text-[34px] sm:text-4xl md:text-[50px] md:tracking-tighter font-normal leading-tight md:leading-[55px] text-[#333] mb-3 px-2">
-          Delegate Registrations
-        </h2>
-
-        <p className="text-[#333] text-[15px] md:text-[15px] font-normal leading-7 px-2 md:px-0">
-          It&apos;s a Race Against Time. Avail Best Possible Discounts Now.
-        </p>
-      </div>
-
-      {/* Cards */}
-      <div className="max-w-6xl mx-auto px-4 md:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-4 items-stretch">
-        {loading
-          ? Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
-          : plans.map((tier, index) => (
-              <div
-                key={tier.id}
-                className={`relative flex flex-col pt-8 pb-6 px-5 md:px-6 rounded-xl shadow-[6px_6px_10px_rgba(0,0,0,0.26)] ${
-                  cardColors[index % cardColors.length]
-                }`}
-              >
-                {tier.tag && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap px-3 py-1 rounded text-white text-[11px] md:text-sm font-medium tracking-wide bg-[#D0252D]">
-                    {tier.tag}
-                  </div>
-                )}
-
-                <h3 className="font-roboto text-[#D0252D] font-bold -mt-3 text-base md:text-[17px] tracking-tighter leading-tight min-h-[48px] flex items-center justify-center text-center whitespace-nowrap">
-                  {tier.title}
-                </h3>
-
-                <div className="text-[28px] md:text-[26px] font-bold font-roboto leading-tight text-[#333] mb-4 text-center">
-                  ₹{Number(tier.starting_price || 0).toLocaleString()} Onwards
-                </div>
-
+        {/* Cards */}
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
+          {loading
+            ? Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
+            : plans.map((plan, index) => (
                 <div
-                  className="font-roboto flex-grow mb-8 text-center text-sm leading-relaxed space-y-2"
-                  dangerouslySetInnerHTML={{ __html: tier.description ?? "" }}
-                />
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSelectedPlanId(tier.id);
-                    setIsModalOpen(true);
-                  }}
-                  className={`font-custom mt-auto w-35 mx-auto py-3 px-4  border border-[#D0252D] rounded-md font-bold text-[#D0252D]  hover:bg-[#D0252D] hover:text-white cursor-pointer transition-colors `}
+                  key={plan.id}
+                  className="relative flex min-h-[350px] flex-col rounded-[9px] border-[5px] border-[var(--plan-color)] bg-white px-3 pb-4 pt-6 transition-all duration-300 hover:-translate-y-1 hover:bg-[var(--plan-color)]"
+                  style={
+                    {
+                      "--plan-color": PLAN_COLORS[index % PLAN_COLORS.length],
+                    } as CSSProperties
+                  }
                 >
-                  Book Now
-                </button>
-              </div>
-            ))}
+                  <PlanTag tag={getPlanTag(plan)} />
+
+                  <div className="text-center">
+                    <h3 className="mt-5 min-h-[22px] text-[16px] font-semibold leading-[22px] text-[#D0252D]">
+                      {plan.title}
+                    </h3>
+
+                    <h4 className="mt-3 whitespace-nowrap text-[29px] font-bold leading-[34px] tracking-[-1.2px] text-[#222]">
+                      ₹
+                      {Number(plan.starting_price || 0).toLocaleString("en-IN")}{" "}
+                      <span className="text-[17px]">Onwards</span>
+                    </h4>
+
+                    <div
+                      className="mt-4 space-y-2 text-center text-[15px] leading-[21px] text-[#222] [&_p]:mb-2 [&_ul]:mt-2 [&_ul]:space-y-2 [&_li]:mb-2"
+                      dangerouslySetInnerHTML={{
+                        __html: plan.description ?? "",
+                      }}
+                    />
+                  </div>
+
+                  <div className="mt-auto flex justify-center pt-6">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedPlanId(plan.id);
+                        setIsModalOpen(true);
+                      }}
+                      className="min-w-[129px] cursor-pointer rounded-[4px] border border-[#D0252D] bg-transparent px-5 py-[13px] text-center text-[14px] font-bold text-[#D0252D] transition-all duration-300 hover:bg-[#D0252D] hover:text-white"
+                    >
+                      Book Now
+                    </button>
+                  </div>
+                </div>
+              ))}
+        </div>
       </div>
 
       {/* Modal */}
