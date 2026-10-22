@@ -137,11 +137,7 @@ export default function GetInvolvedBanner() {
             Get <span className="text-[#e31e26]">Involved</span>
           </h2>
 
-          <p className="mt-5 max-w-[640px] text-[22px] sm:text-[28px] md:text-[34px] font-semibold leading-tight">
-            All That You&apos;d Like to Know about The Grand Masters 2026
-          </p>
-
-          <p className="mt-4 max-w-xl text-[16px] md:text-[20px] leading-relaxed text-white/80">
+          <p className="mt-5 max-w-xl text-[16px] md:text-[20px] leading-relaxed text-white/80">
             Explore speaking, sponsorship, summit access and connect
             opportunities.
           </p>
