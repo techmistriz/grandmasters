@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { FaLinkedinIn } from "react-icons/fa";
 
 import SpeakersLounge from "@/src/components/sections/SpeakersLounge";
+import { editionTabId, useHashTab } from "@/src/hooks/useHashTab";
 import { useEvents } from "@/src/hooks/useEvents";
 import type { EventSpeaker } from "@/src/types/event.type";
 import { formatDateWithSuffix } from "@/src/utils/date";
@@ -58,29 +58,11 @@ function SpeakerCard({
 
 export default function Speakers() {
   const { events } = useEvents();
-  const [selectedCity, setSelectedCity] = useState("");
-
-  // Read the edition from the URL hash (e.g. #pune-edition) so a tab can be
-  // shared as a link, and follow back/forward navigation.
-  useEffect(() => {
-    const readHash = () => {
-      const hash = decodeURIComponent(window.location.hash.slice(1));
-
-      if (hash.endsWith("-edition")) setSelectedCity(hash);
-    };
-
-    readHash();
-    window.addEventListener("hashchange", readHash);
-    window.addEventListener("popstate", readHash);
-
-    return () => {
-      window.removeEventListener("hashchange", readHash);
-      window.removeEventListener("popstate", readHash);
-    };
-  }, []);
+  // Tabs are linkable, e.g. #speakers-chennai-edition.
+  const [selectedCity, selectTab] = useHashTab("speakers");
 
   const tabs = events.map((event) => ({
-    id: `${event.city?.name ?? ""}-edition`.toLowerCase().replace(/\s+/g, "-"),
+    id: editionTabId("speakers", event.city?.name),
     label: `${event.city?.name} Edition`,
     date: event.date ? formatDateWithSuffix(event.date) : "",
   }));
@@ -91,14 +73,6 @@ export default function Speakers() {
     : tabs[0]?.id || "";
 
   const selectedEvent = events[tabs.findIndex((tab) => tab.id === active)];
-
-  const selectTab = (id: string) => {
-    setSelectedCity(id);
-
-    if (window.location.hash !== `#${id}`) {
-      window.history.pushState(null, "", `#${id}`);
-    }
-  };
 
   const speakers = selectedEvent?.speakers ?? [];
   const firstRowSpeakers = speakers.slice(0, 2);
