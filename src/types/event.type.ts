@@ -56,6 +56,7 @@ export interface Event {
   dignitaries?: Dignitary[];
   gallery?: { images?: string[] } | null;
   summit_report?: string | null;
+  gallery_banner: string | null;
 }
 
 export interface EventsResponse {
