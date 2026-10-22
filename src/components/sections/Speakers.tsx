@@ -6,6 +6,7 @@ import { FaLinkedinIn } from "react-icons/fa";
 import SpeakersLounge from "@/src/components/sections/SpeakersLounge";
 import { useEvents } from "@/src/hooks/useEvents";
 import type { EventSpeaker } from "@/src/types/event.type";
+import { formatDateWithSuffix } from "@/src/utils/date";
 import { getSpeakerImageUrl, handleImageError } from "@/src/utils/image";
 
 function SpeakerCard({
@@ -62,6 +63,7 @@ export default function Speakers() {
   const tabs = events.map((event) => ({
     id: event.city?.name?.toLowerCase() ?? "",
     label: `${event.city?.name} Edition`,
+    date: event.date ? formatDateWithSuffix(event.date) : "",
   }));
 
   // Default to the first edition until the visitor picks one.
@@ -109,7 +111,12 @@ export default function Speakers() {
                     : "text-[#333] hover:text-[#D0252D]"
                 }`}
               >
-                {tab.label}
+                <span className="block">{tab.label}</span>
+                {tab.date && (
+                  <span className="block mt-1 text-[13px] md:text-sm font-normal normal-case tracking-normal">
+                    {tab.date}
+                  </span>
+                )}
               </button>
 
               {active === tab.id && (
