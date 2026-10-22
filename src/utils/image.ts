@@ -35,12 +35,14 @@ export const handleImageError =
     e.currentTarget.src = fallback;
   };
 
-export const getGalleryBannerUrl = (image?: string | null): string => {
+export const getGalleryBannerUrl = (
+  image?: string | null,
+): string => {
   if (!image) return "";
 
-  const baseUrl = process.env.NEXT_PUBLIC_GALLERY_BANNER_BASE_URL;
+  const baseUrl = API_ASSET_URLS.galleryBanners;
 
   if (!baseUrl) return image;
 
-  return `${baseUrl.replace(/\/$/, "")}/${image.replace(/^\//, "")}`;
+  return joinUrl(baseUrl, image);
 };
