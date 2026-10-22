@@ -22,7 +22,7 @@ const stats = [
   { value: 7, label: "Cities" },
   { value: 200, suffix: "+", label: "Speakers" },
   { value: 35, suffix: "+", label: "Sessions" },
-  { value: 500, suffix: "+", label: "Attendees" },
+  { value: 700, suffix: "+", label: "Attendees" },
 ];
 
 const features = [
