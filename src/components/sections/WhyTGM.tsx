@@ -139,7 +139,7 @@ export default function WhyTGM() {
         className="hidden xl:block absolute top-0 left-[47%] h-full w-auto object-cover [mask-image:linear-gradient(to_right,transparent,black_25%,black_75%,transparent),linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)] [mask-composite:intersect]"
       />
 
-      <div className="relative z-10 max-w-[1500px] mx-auto px-5 sm:px-8 xl:px-12 py-14 md:py-16 grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] xl:grid-cols-[1fr_480px] gap-10 lg:gap-12 items-center">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 py-14 md:py-16 grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] xl:grid-cols-[1fr_420px] gap-10 lg:gap-12 items-center">
         {/* TEXT */}
         <div className="text-white xl:max-w-[700px]">
           <span className="block w-12 h-1 bg-[#e31e26]" />

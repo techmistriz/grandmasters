@@ -74,7 +74,7 @@ export default function SpeakersLounge() {
 
   return (
     <div className="bg-[#f4f5f7] text-left font-roboto px-4 sm:px-6 py-12 md:py-16">
-      <div className="max-w-[1500px] mx-auto grid grid-cols-1 lg:grid-cols-[2.2fr_1fr] gap-6">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6">
         {/* INFO CARD */}
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-white to-[#f1f1f3] shadow-[0_10px_40px_rgba(0,0,0,0.08)] p-6 sm:p-10 md:p-14">
           <img
@@ -131,7 +131,7 @@ export default function SpeakersLounge() {
         {/* FORM CARD */}
         <div className="rounded-2xl bg-white shadow-[0_10px_40px_rgba(0,0,0,0.08)] p-6 sm:p-10">
           <span className="block w-14 h-1 bg-[#D0252D]" />
-          <h3 className="mt-6 text-[34px] md:text-[44px] font-extrabold leading-tight text-[#111]">
+          <h3 className="mt-6 text-[34px] md:text-[38px] xl:text-[42px] font-extrabold leading-tight text-[#111]">
             I&apos;m Interested!
           </h3>
           <p className="mt-2 text-[16px] md:text-[18px] leading-relaxed text-[#555]">

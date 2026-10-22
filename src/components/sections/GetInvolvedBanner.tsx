@@ -125,7 +125,7 @@ export default function GetInvolvedBanner() {
         className="hidden xl:block absolute top-[10%] left-[47%] h-[62%] w-auto object-cover [mask-image:linear-gradient(to_right,transparent,black_30%,black_70%,transparent),linear-gradient(to_bottom,transparent,black_20%,black_70%,transparent)] [mask-composite:intersect]"
       />
 
-      <div className="relative z-10 max-w-[1500px] mx-auto px-5 sm:px-8 xl:px-12 py-14 md:py-16 grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] xl:grid-cols-[1fr_470px] gap-10 lg:gap-12 items-center">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 py-14 md:py-16 grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] xl:grid-cols-[1fr_420px] gap-10 lg:gap-12 items-center">
         {/* TEXT + CARDS */}
         <div className="text-white">
           <span className="block w-14 h-1 bg-[#e31e26]" />

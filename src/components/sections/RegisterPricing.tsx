@@ -60,7 +60,7 @@ export default function RegisterPricing() {
 
   return (
     <section className="w-full font-roboto bg-[#f7f7f7] px-4 py-12 sm:px-6 lg:px-10">
-      <div className="mx-auto max-w-[1110px]">
+      <div className="mx-auto max-w-6xl">
         {/* Header */}
         <div className="mb-16 text-center">
           <p className="text-[20px] font-medium text-[#D0252D] sm:text-[30px]">

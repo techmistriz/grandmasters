@@ -94,10 +94,10 @@ export default function BrandSponsor() {
       <img
         src="/images/showcase-king.jpg"
         alt=""
-        className="hidden xl:block absolute left-0 bottom-0 h-full w-auto object-cover [mask-image:linear-gradient(to_right,black_70%,transparent)]"
+        className="hidden 2xl:block absolute left-0 bottom-0 h-full w-auto max-w-[calc(50vw-36rem)] object-cover object-right [mask-image:linear-gradient(to_right,black_70%,transparent)]"
       />
 
-      <div className="relative z-10 max-w-[1500px] mx-auto px-5 sm:px-8 xl:pl-[290px] xl:pr-12 py-14 md:py-16 grid grid-cols-1 lg:grid-cols-[1.45fr_1fr] gap-10 lg:gap-12 items-center">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 py-14 md:py-16 grid grid-cols-1 lg:grid-cols-[1.45fr_1fr] gap-10 lg:gap-12 items-center">
         {/* TEXT */}
         <div className="text-white">
           <p className="flex items-center gap-5 text-[12px] md:text-[13px] tracking-[0.35em] uppercase text-white/80">

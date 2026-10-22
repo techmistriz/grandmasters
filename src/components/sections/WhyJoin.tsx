@@ -97,7 +97,7 @@ export default function WhyJoin() {
     "w-full h-11 px-4 text-[15px] text-[#333] bg-white border border-[#dfe2e7] rounded-md placeholder:text-[#a3a8b3] focus:outline-none focus:border-[#D0252D] focus:ring-2 focus:ring-[#D0252D]/15 transition";
 
   return (
-    <div className="mt-10 w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.1fr_1fr_1fr] gap-10 lg:gap-8 items-center text-left">
+    <div className="mt-10 w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.1fr_1fr_1fr] gap-10 lg:gap-8 items-center text-left">
       {/* ILLUSTRATION */}
       <div className="flex justify-center md:col-span-2 lg:col-span-1">
         <img
