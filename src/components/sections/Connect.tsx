@@ -28,7 +28,7 @@ export default function Connect() {
         className="hidden lg:block absolute right-0 top-0 h-full w-[45%] object-cover object-left [mask-image:linear-gradient(to_right,transparent,black_12%)]"
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 py-14 md:py-20">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 py-14 md:py-20">
         <div className="lg:w-[58%]">
           <span className="block w-16 h-1 bg-[#D0252D]" />
           <p className="mt-5 text-[12px] md:text-[14px] font-bold tracking-[0.4em] uppercase text-[#D0252D]">

@@ -107,7 +107,7 @@ export default function GetInvolvedForm() {
       <span className="absolute -left-40 bottom-[-120px] w-[480px] h-[480px] rounded-full bg-[#fdecec]" />
       <span className="absolute -right-24 top-1/3 w-64 h-64 rounded-full bg-[#fdecec]" />
 
-      <div className="relative z-10 max-w-[1500px] mx-auto grid grid-cols-1 lg:grid-cols-[1.9fr_1fr] gap-6">
+      <div className="relative z-10 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1.9fr_1fr] gap-6">
         {/* INFO CARD */}
         <div className="relative overflow-hidden bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.06)] p-6 sm:p-10 md:p-12">
           <img
