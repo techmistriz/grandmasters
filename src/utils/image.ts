@@ -20,10 +20,8 @@ export const getSponsorImageUrl = (image?: string | null) =>
 export const getPastEditionImageUrl = (image?: string | null) =>
   image ? joinUrl(API_ASSET_URLS.pastEditions, image) : DEFAULT_SPONSOR_IMAGE;
 
-// The gallery base URL is used without a separator in the old app
-// (`${IMAGE_URL}${item.image}`), so keep the same concatenation.
 export const getGalleryImageUrl = (image: string) =>
-  `${API_ASSET_URLS.gallery}${image}`;
+  joinUrl(API_ASSET_URLS.gallery, image);
 
 export const getReportUrl = (report?: string | null) =>
   report ? joinUrl(API_ASSET_URLS.reports, report) : "";
@@ -35,14 +33,5 @@ export const handleImageError =
     e.currentTarget.src = fallback;
   };
 
-export const getGalleryBannerUrl = (
-  image?: string | null,
-): string => {
-  if (!image) return "";
-
-  const baseUrl = API_ASSET_URLS.galleryBanners;
-
-  if (!baseUrl) return image;
-
-  return joinUrl(baseUrl, image);
-};
+export const getGalleryBannerUrl = (image?: string | null) =>
+  image ? joinUrl(API_ASSET_URLS.galleryBanners, image) : "";
