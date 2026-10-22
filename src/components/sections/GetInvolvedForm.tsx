@@ -166,12 +166,6 @@ export default function GetInvolvedForm() {
 
           <form onSubmit={handleSubmit} className="mt-7 space-y-5">
             <div>
-              <label
-                htmlFor="involved-name"
-                className="block mb-2 text-[16px] font-semibold text-[#141414]"
-              >
-                Name*
-              </label>
               <input
                 id="involved-name"
                 type="text"
@@ -179,18 +173,13 @@ export default function GetInvolvedForm() {
                 required
                 value={formdata.name}
                 onChange={handleChange}
-                placeholder="Enter your full name"
+                aria-label="Full Name"
+                placeholder="Full Name*"
                 className={inputClass}
               />
             </div>
 
             <div>
-              <label
-                htmlFor="involved-email"
-                className="block mb-2 text-[16px] font-semibold text-[#141414]"
-              >
-                Email ID*
-              </label>
               <input
                 id="involved-email"
                 type="email"
@@ -198,18 +187,13 @@ export default function GetInvolvedForm() {
                 required
                 value={formdata.email}
                 onChange={handleChange}
-                placeholder="Enter your business email"
+                aria-label="Email ID"
+                placeholder="Email ID*"
                 className={inputClass}
               />
             </div>
 
             <div>
-              <label
-                htmlFor="involved-phone"
-                className="block mb-2 text-[16px] font-semibold text-[#141414]"
-              >
-                Contact Number*
-              </label>
               <div className="flex h-12 bg-[#f6f7f9] border border-[#dfe2e7] rounded-md focus-within:bg-white focus-within:border-[#D0252D] focus-within:ring-2 focus-within:ring-[#D0252D]/15 transition">
                 <div className="relative shrink-0 border-r border-[#dfe2e7]">
                   <select
@@ -237,7 +221,8 @@ export default function GetInvolvedForm() {
                   required
                   value={formdata.phone}
                   onChange={handleChange}
-                  placeholder="Enter your contact number"
+                  aria-label="Contact Number"
+                  placeholder="Contact Number*"
                   className="flex-1 min-w-0 px-4 text-[15px] text-[#333] bg-transparent placeholder:text-[#9aa0aa] focus:outline-none"
                 />
               </div>

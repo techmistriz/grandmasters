@@ -168,7 +168,7 @@ export default function BrandSponsor() {
               aria-label="Name"
               value={formdata.name}
               onChange={handleChange}
-              placeholder="Name*"
+              placeholder="Full Name*"
               className={inputClass}
             />
             <input

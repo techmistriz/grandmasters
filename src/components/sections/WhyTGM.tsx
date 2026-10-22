@@ -211,12 +211,6 @@ export default function WhyTGM() {
 
           <form onSubmit={handleSubmit} className="mt-7 space-y-5">
             <div>
-              <label
-                htmlFor="why-tgm-name"
-                className="block mb-2 text-[15px] font-semibold text-[#222]"
-              >
-                Name<span className="text-[#e31e26]">*</span>
-              </label>
               <input
                 id="why-tgm-name"
                 type="text"
@@ -224,18 +218,13 @@ export default function WhyTGM() {
                 required
                 value={formdata.name}
                 onChange={handleChange}
-                placeholder="Enter your full name"
+                aria-label="Full Name"
+                placeholder="Full Name*"
                 className={inputClass}
               />
             </div>
 
             <div>
-              <label
-                htmlFor="why-tgm-email"
-                className="block mb-2 text-[15px] font-semibold text-[#222]"
-              >
-                Email ID<span className="text-[#e31e26]">*</span>
-              </label>
               <input
                 id="why-tgm-email"
                 type="email"
@@ -243,18 +232,13 @@ export default function WhyTGM() {
                 required
                 value={formdata.email}
                 onChange={handleChange}
-                placeholder="Enter your email address"
+                aria-label="Email ID"
+                placeholder="Email ID*"
                 className={inputClass}
               />
             </div>
 
             <div>
-              <label
-                htmlFor="why-tgm-phone"
-                className="block mb-2 text-[15px] font-semibold text-[#222]"
-              >
-                Contact Number<span className="text-[#e31e26]">*</span>
-              </label>
               <div className="flex gap-2">
                 <div className="relative shrink-0">
                   <select
@@ -282,7 +266,8 @@ export default function WhyTGM() {
                   required
                   value={formdata.phone}
                   onChange={handleChange}
-                  placeholder="Enter your contact number"
+                  aria-label="Contact Number"
+                  placeholder="Contact Number*"
                   className={inputClass}
                 />
               </div>
