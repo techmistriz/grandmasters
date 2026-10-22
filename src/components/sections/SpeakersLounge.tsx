@@ -76,7 +76,7 @@ export default function SpeakersLounge() {
     <div className="bg-[#f4f5f7] text-left font-roboto px-4 sm:px-6 py-12 md:py-16">
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6">
         {/* INFO CARD */}
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-white to-[#f1f1f3] shadow-[0_10px_40px_rgba(0,0,0,0.08)] p-6 sm:p-10 md:p-14">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-white to-[#f1f1f3] shadow-[0_10px_40px_rgba(0,0,0,0.08)] p-6 sm:p-10 md:p-14 lg:p-10 xl:px-12 lg:flex lg:flex-col lg:justify-center">
           <img
             src="/images/speakers-lounge-king.jpg"
             alt=""
@@ -89,36 +89,36 @@ export default function SpeakersLounge() {
             </p>
             <span className="block mt-4 w-12 h-0.5 bg-[#D0252D]" />
 
-            <p className="mt-8 text-[22px] md:text-[30px] font-bold text-[#D0252D]">
+            <p className="mt-8 lg:mt-6 text-[22px] md:text-[30px] lg:text-[26px] font-bold text-[#D0252D]">
               Interested in Speaking?
             </p>
 
-            <h2 className="mt-3 text-[44px] sm:text-[58px] md:text-[72px] font-extrabold leading-[1.02] tracking-tight text-[#111]">
+            <h2 className="mt-3 text-[44px] sm:text-[58px] md:text-[72px] lg:text-[48px] xl:text-[58px] font-extrabold leading-[1.02] tracking-tight text-[#111]">
               Join the
               <br />
               <span className="text-[#D0252D]">Speakers&apos;</span> Lounge
             </h2>
 
-            <p className="mt-4 text-[26px] md:text-[38px] font-light text-[#222]">
+            <p className="mt-4 lg:mt-3 text-[26px] md:text-[38px] lg:text-[30px] font-light text-[#222]">
               Showcase Your Expertise
             </p>
 
-            <p className="mt-4 max-w-xl text-[16px] md:text-[19px] leading-relaxed text-[#555]">
+            <p className="mt-4 lg:mt-3 max-w-xl text-[16px] md:text-[19px] lg:text-[17px] leading-relaxed text-[#555]">
               Connect with India&apos;s elite in-house counsel community and
               explore speaking opportunities at The Grand Masters 2026.
             </p>
           </div>
 
-          <ul className="relative mt-10 md:mt-14 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-0 sm:divide-x sm:divide-[#e0e0e0]">
+          <ul className="relative mt-10 md:mt-14 lg:mt-8 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-0 sm:divide-x sm:divide-[#e0e0e0]">
             {highlights.map((item) => (
               <li
                 key={item.lines.join(" ")}
-                className="flex items-center gap-4 sm:px-6 first:sm:pl-0"
+                className="flex items-center gap-4 lg:gap-3 sm:px-6 lg:px-4 first:sm:pl-0"
               >
-                <span className="flex items-center justify-center shrink-0 w-16 h-16 md:w-18 md:h-18 rounded-full bg-[#fdecec] text-[#D0252D]">
+                <span className="flex items-center justify-center shrink-0 w-16 h-16 md:w-18 md:h-18 lg:w-14 lg:h-14 rounded-full bg-[#fdecec] text-[#D0252D]">
                   {item.icon}
                 </span>
-                <span className="text-[16px] md:text-[19px] font-medium leading-snug text-[#222]">
+                <span className="text-[16px] md:text-[19px] lg:text-[16px] font-medium leading-snug text-[#222]">
                   {item.lines[0]}
                   <br />
                   {item.lines[1]}
