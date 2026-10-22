@@ -64,7 +64,7 @@ export default function Footer() {
         <img
           src="/images/footer-king.jpg"
           alt=""
-          className="hidden 2xl:block absolute right-0 top-0 h-full w-auto max-w-[calc(50vw-36rem)] object-cover object-left [mask-image:linear-gradient(to_right,transparent,black_30%)]"
+          className="hidden 2xl:block absolute right-0 top-0 h-full w-auto max-w-[calc(50vw-36rem)] object-cover object-[65%_center] [mask-image:linear-gradient(to_right,transparent,black_20%)]"
         />
 
         <div className="relative max-w-6xl mx-auto px-4 py-12 md:py-16 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-[1fr_1.05fr_1.9fr] gap-10 xl:gap-0 xl:divide-x xl:divide-[#d9d9d9]">
