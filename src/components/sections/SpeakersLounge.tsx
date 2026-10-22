@@ -140,12 +140,6 @@ export default function SpeakersLounge() {
 
           <form onSubmit={handleSubmit} className="mt-6 space-y-5">
             <div>
-              <label
-                htmlFor="lounge-name"
-                className="block mb-2 text-[16px] font-semibold text-[#111]"
-              >
-                Name <span className="text-[#D0252D]">*</span>
-              </label>
               <input
                 id="lounge-name"
                 type="text"
@@ -153,18 +147,13 @@ export default function SpeakersLounge() {
                 required
                 value={formdata.name}
                 onChange={handleChange}
-                placeholder="Enter your full name"
+                aria-label="Full Name"
+                placeholder="Full Name*"
                 className={inputClass}
               />
             </div>
 
             <div>
-              <label
-                htmlFor="lounge-email"
-                className="block mb-2 text-[16px] font-semibold text-[#111]"
-              >
-                Email ID <span className="text-[#D0252D]">*</span>
-              </label>
               <input
                 id="lounge-email"
                 type="email"
@@ -172,18 +161,13 @@ export default function SpeakersLounge() {
                 required
                 value={formdata.email}
                 onChange={handleChange}
-                placeholder="Enter your email id"
+                aria-label="Email ID"
+                placeholder="Email ID*"
                 className={inputClass}
               />
             </div>
 
             <div>
-              <label
-                htmlFor="lounge-phone"
-                className="block mb-2 text-[16px] font-semibold text-[#111]"
-              >
-                Contact Number <span className="text-[#D0252D]">*</span>
-              </label>
               <input
                 id="lounge-phone"
                 type="tel"
@@ -191,7 +175,8 @@ export default function SpeakersLounge() {
                 required
                 value={formdata.phone}
                 onChange={handleChange}
-                placeholder="Enter your contact number"
+                aria-label="Contact Number"
+                placeholder="Contact Number*"
                 className={inputClass}
               />
             </div>

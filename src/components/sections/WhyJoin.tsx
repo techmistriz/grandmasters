@@ -138,12 +138,6 @@ export default function WhyJoin() {
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-5">
           <div>
-            <label
-              htmlFor="interest-name"
-              className="block mb-2 text-[15px] font-medium text-[#111]"
-            >
-              Full Name*
-            </label>
             <input
               id="interest-name"
               type="text"
@@ -151,18 +145,13 @@ export default function WhyJoin() {
               required
               value={formdata.name}
               onChange={handleChange}
-              placeholder="Enter your full name"
+              aria-label="Full Name"
+              placeholder="Full Name*"
               className={inputClass}
             />
           </div>
 
           <div>
-            <label
-              htmlFor="interest-email"
-              className="block mb-2 text-[15px] font-medium text-[#111]"
-            >
-              Email ID*
-            </label>
             <input
               id="interest-email"
               type="email"
@@ -170,18 +159,13 @@ export default function WhyJoin() {
               required
               value={formdata.email}
               onChange={handleChange}
-              placeholder="Enter your email address"
+              aria-label="Email ID"
+              placeholder="Email ID*"
               className={inputClass}
             />
           </div>
 
           <div>
-            <label
-              htmlFor="interest-phone"
-              className="block mb-2 text-[15px] font-medium text-[#111]"
-            >
-              Contact Number*
-            </label>
             <div className="flex gap-2">
               <div className="relative shrink-0">
                 <select
@@ -209,7 +193,8 @@ export default function WhyJoin() {
                 required
                 value={formdata.phone}
                 onChange={handleChange}
-                placeholder="Enter your contact number"
+                aria-label="Contact Number"
+                placeholder="Contact Number*"
                 className={inputClass}
               />
             </div>

@@ -137,11 +137,7 @@ export default function GetInvolvedBanner() {
             Get <span className="text-[#e31e26]">Involved</span>
           </h2>
 
-          <p className="mt-5 max-w-[640px] text-[22px] sm:text-[28px] md:text-[34px] font-semibold leading-tight">
-            All That You&apos;d Like to Know about The Grand Masters 2026
-          </p>
-
-          <p className="mt-4 max-w-xl text-[16px] md:text-[20px] leading-relaxed text-white/80">
+          <p className="mt-5 max-w-xl text-[16px] md:text-[20px] leading-relaxed text-white/80">
             Explore speaking, sponsorship, summit access and connect
             opportunities.
           </p>
@@ -184,12 +180,6 @@ export default function GetInvolvedBanner() {
 
           <form onSubmit={handleSubmit} className="mt-7 space-y-5">
             <div>
-              <label
-                htmlFor="gi-banner-name"
-                className="block mb-2 text-[15px] font-semibold text-[#222]"
-              >
-                Name <span className="text-[#e31e26]">*</span>
-              </label>
               <input
                 id="gi-banner-name"
                 type="text"
@@ -197,18 +187,13 @@ export default function GetInvolvedBanner() {
                 required
                 value={formdata.name}
                 onChange={handleChange}
-                placeholder="Enter your full name"
+                aria-label="Full Name"
+                placeholder="Full Name*"
                 className={inputClass}
               />
             </div>
 
             <div>
-              <label
-                htmlFor="gi-banner-email"
-                className="block mb-2 text-[15px] font-semibold text-[#222]"
-              >
-                Email ID <span className="text-[#e31e26]">*</span>
-              </label>
               <input
                 id="gi-banner-email"
                 type="email"
@@ -216,18 +201,13 @@ export default function GetInvolvedBanner() {
                 required
                 value={formdata.email}
                 onChange={handleChange}
-                placeholder="Enter your email address"
+                aria-label="Email ID"
+                placeholder="Email ID*"
                 className={inputClass}
               />
             </div>
 
             <div>
-              <label
-                htmlFor="gi-banner-phone"
-                className="block mb-2 text-[15px] font-semibold text-[#222]"
-              >
-                Contact Number <span className="text-[#e31e26]">*</span>
-              </label>
               <div className="flex gap-2">
                 <div className="relative shrink-0">
                   <select
@@ -255,7 +235,8 @@ export default function GetInvolvedBanner() {
                   required
                   value={formdata.phone}
                   onChange={handleChange}
-                  placeholder="Enter your contact number"
+                  aria-label="Contact Number"
+                  placeholder="Contact Number*"
                   className={inputClass}
                 />
               </div>
