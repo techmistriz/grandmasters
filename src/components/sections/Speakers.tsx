@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaLinkedinIn } from "react-icons/fa";
 
 import SpeakersLounge from "@/src/components/sections/SpeakersLounge";
@@ -60,18 +60,45 @@ export default function Speakers() {
   const { events } = useEvents();
   const [selectedCity, setSelectedCity] = useState("");
 
+  // Read the edition from the URL hash (e.g. #pune-edition) so a tab can be
+  // shared as a link, and follow back/forward navigation.
+  useEffect(() => {
+    const readHash = () => {
+      const hash = decodeURIComponent(window.location.hash.slice(1));
+
+      if (hash.endsWith("-edition")) setSelectedCity(hash);
+    };
+
+    readHash();
+    window.addEventListener("hashchange", readHash);
+    window.addEventListener("popstate", readHash);
+
+    return () => {
+      window.removeEventListener("hashchange", readHash);
+      window.removeEventListener("popstate", readHash);
+    };
+  }, []);
+
   const tabs = events.map((event) => ({
-    id: event.city?.name?.toLowerCase() ?? "",
+    id: `${event.city?.name ?? ""}-edition`.toLowerCase().replace(/\s+/g, "-"),
     label: `${event.city?.name} Edition`,
     date: event.date ? formatDateWithSuffix(event.date) : "",
   }));
 
   // Default to the first edition until the visitor picks one.
-  const active = selectedCity || tabs[0]?.id || "";
+  const active = tabs.some((tab) => tab.id === selectedCity)
+    ? selectedCity
+    : tabs[0]?.id || "";
 
-  const selectedEvent = events.find(
-    (e) => e.city?.name?.toLowerCase() === active,
-  );
+  const selectedEvent = events[tabs.findIndex((tab) => tab.id === active)];
+
+  const selectTab = (id: string) => {
+    setSelectedCity(id);
+
+    if (window.location.hash !== `#${id}`) {
+      window.history.pushState(null, "", `#${id}`);
+    }
+  };
 
   const speakers = selectedEvent?.speakers ?? [];
   const firstRowSpeakers = speakers.slice(0, 2);
@@ -101,10 +128,10 @@ export default function Speakers() {
         {/* Tabs */}
         <div className="relative flex flex-col md:flex-row max-w-4xl mx-auto justify-center items-center gap-3 md:gap-60 mb-1 px-4">
           {tabs.map((tab) => (
-            <div key={tab.id} className="relative">
+            <div key={tab.id} id={tab.id} className="relative scroll-mt-80">
               <button
                 type="button"
-                onClick={() => setSelectedCity(tab.id)}
+                onClick={() => selectTab(tab.id)}
                 className={`font-roboto w-full md:w-auto text-center px-4 py-3 md:py-2 tracking-[2px] md:tracking-widest text-sm md:text-[15px] font-semibold uppercase transition cursor-pointer rounded md:rounded-none ${
                   active === tab.id
                     ? "text-[#D0252D]"
