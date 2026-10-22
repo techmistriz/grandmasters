@@ -5,7 +5,7 @@ import { ChevronDown, Clock } from "lucide-react";
 
 import { editionTabId, useHashTab } from "@/src/hooks/useHashTab";
 import { useEvents } from "@/src/hooks/useEvents";
-import { formatEventDate } from "@/src/utils/date";
+import { formatDateWithSuffix } from "@/src/utils/date";
 import { getSpeakerImageUrl, handleImageError } from "@/src/utils/image";
 
 export default function Agenda() {
@@ -51,7 +51,7 @@ export default function Agenda() {
           The Summit Agenda
         </h1>
 
-        <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-16 relative md:border-b md:border-gray-200">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-60 relative md:border-b md:border-gray-200">
           {events.map((event, index) => {
             const tabId = tabIds[index];
             const isActive = activeTab === tabId;
@@ -66,21 +66,20 @@ export default function Agenda() {
                 }}
                 className="w-full md:w-auto py-3 md:pb-4 cursor-pointer relative text-center scroll-mt-72"
               >
-                <p
-                  className={`text-[15px] font-bold leading-7 tracking-widest ${
-                    isActive ? "text-[#D0252D]" : "text-[#333]"
+                <div
+                  className={`font-roboto px-4 py-0 md:py-2 tracking-[2px] md:tracking-widest text-sm md:text-[15px] font-semibold uppercase transition ${
+                    isActive
+                      ? "text-[#D0252D]"
+                      : "text-[#333] hover:text-[#D0252D]"
                   }`}
                 >
-                  {formatEventDate(event.date)}
-                </p>
-
-                <p
-                  className={`uppercase font-bold ${
-                    isActive ? "text-[#D0252D]" : "text-[#333]"
-                  }`}
-                >
-                  {event.city?.name} Edition
-                </p>
+                  <span className="block">{event.city?.name} Edition</span>
+                  {event.date && (
+                    <span className="block mt-1 text-[13px] md:text-sm font-normal normal-case tracking-normal">
+                      {formatDateWithSuffix(event.date)}
+                    </span>
+                  )}
+                </div>
 
                 {isActive && (
                   <div className="hidden md:block absolute left-1/2 -bottom-2 -translate-x-1/2 w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-t-[8px] border-t-[#D0252D]" />
