@@ -195,7 +195,7 @@ export default function SummitGallery() {
         </div>
 
         <h2 className="text-[#333] mb-2 text-2xl sm:text-4xl md:text-[50px] font-normal">
-          2026 Editions Summit Gallery
+          Past Editions Summit Gallery
         </h2>
 
         <p className="text-[#8D93A0] text-sm md:text-[15px] mb-8 md:mb-12">
