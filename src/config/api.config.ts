@@ -11,6 +11,8 @@ export const API_ASSET_URLS = {
 
   gallery: process.env.NEXT_PUBLIC_GALLERY_BASE_URL || "",
 
+  galleryBanners: process.env.NEXT_PUBLIC_GALLERY_BANNER_BASE_URL || "",
+
   reports: process.env.NEXT_PUBLIC_REPORT_BASE_URL || "",
 
   // City images live in the API's public uploads/cities folder. Defaults to
