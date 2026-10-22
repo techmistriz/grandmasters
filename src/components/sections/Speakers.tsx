@@ -24,7 +24,7 @@ function SpeakerCard({
           src={
             speaker?.image
               ? getSpeakerImageUrl(speaker.image)
-              : "/images/veta.jpg"
+              : "/images/dummy-profile.jpg"
           }
           alt={speaker?.name}
           onError={handleImageError()}
