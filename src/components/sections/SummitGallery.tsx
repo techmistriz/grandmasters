@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 import { getHomepageGallery, getSummitEvents } from "@/src/services/homePage";
 import type { Event, GalleryImage } from "@/src/types/event.type";
-import { getGalleryImageUrl } from "@/src/utils/image";
+import { getGalleryBannerUrl, getGalleryImageUrl } from "@/src/utils/image";
 
 export default function SummitGallery() {
   const router = useRouter();
@@ -42,7 +42,7 @@ export default function SummitGallery() {
       try {
         setLoading(true);
 
-        const res = await getSummitEvents(6);
+        const res = await getSummitEvents(7);
         const eventList = res.data?.events ?? [];
         setEvents(eventList);
 
@@ -184,7 +184,7 @@ export default function SummitGallery() {
 
   return (
     <section className="font-roboto pt-6 md:pb-16 bg-white">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
         {/* Header */}
         <div className="flex justify-center">
           <img
@@ -245,17 +245,26 @@ export default function SummitGallery() {
           </div>
         </div>
 
+        {/* Gallery Banner */}
+        {activeEvent?.gallery_banner && (
+          <div className="mx-auto mt-6 mb-6 w-full max-w-5xl overflow-hidden sm:mb-8 sm:px-6">
+            <img
+              src={getGalleryBannerUrl(activeEvent.gallery_banner)}
+              alt={`${activeEvent.title} Gallery Banner`}
+              className="block h-auto w-full object-cover"
+            />
+          </div>
+        )}
+
         {/* Images */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-0.5 mt-4 sm:px-6">
+        <div className="mx-auto mt-4 grid w-full max-w-6xl grid-cols-2 gap-1 sm:grid-cols-4">
           {galleryImages.map((item, index) => (
             <div key={item.id} className="overflow-hidden">
               <img
                 src={getGalleryImageUrl(item.image)}
-                alt={`Gallery ${index}`}
-                className="w-full h-auto block cursor-pointer"
-                onClick={() => {
-                  showImage(index);
-                }}
+                alt={`Gallery ${index + 1}`}
+                className="block h-[140px] w-full cursor-pointer object-cover sm:h-[180px] lg:h-[200px]"
+                onClick={() => showImage(index)}
               />
             </div>
           ))}

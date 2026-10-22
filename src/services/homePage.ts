@@ -10,7 +10,13 @@ import type {
 import type { ApiResponse } from "../types/api.type";
 
 export const getEvents = async (): Promise<EventsResponse> => {
-  const { data } = await api.get<EventsResponse>(`/events/${APP_EVENT_TYPE}`);
+  const { data } = await api.get<EventsResponse>(`/events/${APP_EVENT_TYPE}`, {
+    params: {
+      sort_by: "date",
+      sort_order: "asc",
+    },
+  });
+
   return data;
 };
 

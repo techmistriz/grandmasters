@@ -91,8 +91,8 @@ export default function Speakers() {
             Meet The Grand Masters!
           </h2>
 
-          <p className="text-[#333] text-sm sm:text-base md:text-lg font-roboto font-normal leading-7 px-4">
-            <span className="text-[#D0252D]">Confirmed Speakers</span>
+          <p className="text-[#D0252D] text-sm sm:text-base md:text-lg font-roboto font-normal leading-7 px-4">
+            <span className="text-[#000]">Invited &</span> Confirmed Speakers
           </p>
         </div>
 
