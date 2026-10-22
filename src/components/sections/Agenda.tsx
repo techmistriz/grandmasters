@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ChevronDown, Clock } from "lucide-react";
 
+import { editionTabId, useHashTab } from "@/src/hooks/useHashTab";
 import { useEvents } from "@/src/hooks/useEvents";
 import { formatEventDate } from "@/src/utils/date";
 import { getSpeakerImageUrl, handleImageError } from "@/src/utils/image";
@@ -10,13 +11,19 @@ import { getSpeakerImageUrl, handleImageError } from "@/src/utils/image";
 export default function Agenda() {
   const { events } = useEvents();
   const [expandedId, setExpandedId] = useState<number | null>(5);
-  const [selectedCity, setSelectedCity] = useState("");
+  // Tabs are linkable, e.g. #agenda-chennai-edition.
+  const [selectedTab, selectTab] = useHashTab("agenda");
 
-  const activeTab = selectedCity || events[0]?.city?.name?.toLowerCase() || "";
-
-  const selectedEvent = events.find(
-    (event) => event.city?.name?.toLowerCase() === activeTab,
+  const tabIds = events.map((event) =>
+    editionTabId("agenda", event.city?.name),
   );
+
+  // Default to the first edition until the visitor picks one.
+  const activeTab = tabIds.includes(selectedTab)
+    ? selectedTab
+    : tabIds[0] || "";
+
+  const selectedEvent = events[tabIds.indexOf(activeTab)];
 
   const agendaItems = (selectedEvent?.agendas ?? []).map((item) => ({
     id: item.id,
@@ -45,18 +52,19 @@ export default function Agenda() {
         </h1>
 
         <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-16 relative md:border-b md:border-gray-200">
-          {events.map((event) => {
-            const cityName = event.city?.name?.toLowerCase() || "";
-            const isActive = activeTab === cityName;
+          {events.map((event, index) => {
+            const tabId = tabIds[index];
+            const isActive = activeTab === tabId;
 
             return (
               <div
                 key={event.id}
+                id={tabId}
                 onClick={() => {
-                  setSelectedCity(cityName);
+                  selectTab(tabId);
                   setExpandedId(null);
                 }}
-                className="w-full md:w-auto py-3 md:pb-4 cursor-pointer relative text-center"
+                className="w-full md:w-auto py-3 md:pb-4 cursor-pointer relative text-center scroll-mt-72"
               >
                 <p
                   className={`text-[15px] font-bold leading-7 tracking-widest ${
