@@ -109,44 +109,45 @@ export default function GetInvolvedForm() {
 
       <div className="relative z-10 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1.9fr_1fr] gap-6">
         {/* INFO CARD */}
-        <div className="relative overflow-hidden bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.06)] p-6 sm:p-10 md:p-12">
+        <div className="relative overflow-hidden bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.06)] p-6 sm:p-10 md:p-12 lg:p-8 xl:p-10 lg:flex lg:flex-col lg:justify-center">
           <img
             src="/images/get-involved-king.jpg"
             alt=""
             className="hidden md:block absolute right-0 top-0 h-[78%] w-auto max-w-[45%] object-cover object-left [mask-image:linear-gradient(to_right,transparent,black_25%),linear-gradient(to_top,transparent,black_20%)] [mask-composite:intersect]"
           />
 
-          <div className="relative md:max-w-[62%]">
+          <div className="relative md:max-w-[62%] lg:max-w-[66%]">
             <span className="block w-16 h-1 bg-[#D0252D]" />
-            <p className="mt-5 text-[12px] md:text-[15px] font-bold tracking-[0.25em] uppercase text-[#D0252D]">
+            <p className="mt-5 lg:mt-4 text-[12px] md:text-[15px] lg:text-[13px] font-bold tracking-[0.25em] uppercase text-[#D0252D]">
               The Grand Masters 2026
             </p>
 
-            <h2 className="mt-4 text-[34px] sm:text-[44px] md:text-[54px] font-bold leading-[1.1] tracking-tight text-[#141414]">
+            <h2 className="mt-4 lg:mt-3 text-[34px] sm:text-[44px] md:text-[54px] lg:text-[34px] xl:text-[46px] font-bold leading-[1.1] tracking-tight text-[#141414]">
               Be Part of India&apos;s
               <br />
               <span className="text-[#D0252D]">
-                Premier In-House Counsel Gathering
+                Premier <span className="whitespace-nowrap">In-House</span>{" "}
+                Counsel Gathering
               </span>
             </h2>
 
-            <p className="mt-5 text-[16px] md:text-[19px] leading-relaxed text-[#555]">
+            <p className="mt-5 lg:mt-4 text-[16px] md:text-[19px] lg:text-[16px] xl:text-[17px] leading-relaxed text-[#555]">
               Join leading General Counsels, Chief Legal Officers and senior
               in-house legal leaders for high-impact conversations, insights and
               new opportunities.
             </p>
           </div>
 
-          <ul className="relative mt-10 md:mt-14 grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-0 sm:divide-x sm:divide-[#e3e3e3]">
+          <ul className="relative mt-10 md:mt-14 lg:mt-8 xl:mt-10 grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-0 sm:divide-x sm:divide-[#e3e3e3]">
             {highlights.map((item) => (
-              <li key={item.title} className="text-center sm:px-6">
-                <span className="mx-auto flex items-center justify-center w-16 h-16 rounded-full bg-[#fdecec] text-[#D0252D]">
+              <li key={item.title} className="text-center sm:px-6 lg:px-3">
+                <span className="mx-auto flex items-center justify-center w-16 h-16 lg:w-12 lg:h-12 rounded-full bg-[#fdecec] text-[#D0252D]">
                   {item.icon}
                 </span>
-                <p className="mt-4 text-[17px] md:text-[19px] font-bold uppercase text-[#141414]">
+                <p className="mt-4 lg:mt-3 text-[17px] md:text-[19px] lg:text-[16px] font-bold uppercase text-[#141414]">
                   {item.title}
                 </p>
-                <p className="mt-1 text-[15px] md:text-[17px] leading-snug text-[#555]">
+                <p className="mt-1 text-[15px] md:text-[17px] lg:text-[14px] leading-snug text-[#555]">
                   {item.text}
                 </p>
               </li>
