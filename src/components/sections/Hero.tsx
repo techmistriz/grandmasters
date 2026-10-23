@@ -2,40 +2,26 @@
 
 import { useMemo } from "react";
 import Link from "next/link";
-import { FaMapMarkerAlt, FaRegCalendarAlt } from "react-icons/fa";
+import { FaArrowRight, FaMapMarkerAlt, FaRegCalendarAlt } from "react-icons/fa";
 
 import { useEventCities } from "@/src/hooks/useEventCities";
 import { useEvents } from "@/src/hooks/useEvents";
 import { EVENT_CONFIG } from "@/src/config/event";
 import { formatDateWithSuffix } from "@/src/utils/date";
 
-const socialIcons = [
-  {
-    src: "/icons/facebook-icon.png",
-    alt: "facebook",
-    link: "http://www.facebook.com/share.php?u=http://www.grandmasters.in/&title=India's%20Finest%20General%20Counsel%20Gathering",
-  },
-  {
-    src: "/icons/linkedin-icon.png",
-    alt: "linkedin",
-    link: "https://www.linkedin.com/shareArticle?mini=true&url=https%3A//www.grandmasters.in/?2024",
-  },
-  {
-    src: "/icons/x-icon.png",
-    alt: "x",
-    link: "https://twitter.com/intent/tweet?text=https%3A//www.grandmasters.in/Join%20India's%20Finest%20General%20Counsel%20Meet%20-%20The%20Grand%20Masters%202024.%20For%20more%20details%20visit%20https%3A//www.grandmasters.in/",
-  },
-  {
-    src: "/icons/whatsapp-icon.png",
-    alt: "whatsapp",
-    link: "https://api.whatsapp.com/send?phone=919899332111&text=Hi%2C%20I%20would%20like%20to%20know%20more%20about%20The%20Grand%20Masters%202026%20Summit%20Series",
-  },
+// Upcoming editions are listed in this order, after the live ones.
+const desiredOrder = [
+  "New Delhi",
+  "Mumbai",
+  "Bengaluru",
+  "Hyderabad",
+  "Ahmedabad",
 ];
 
-const desiredOrder = ["New Delhi", "Mumbai", "Bengaluru", "Hyderabad"];
+const cityName = (name = "") => name.replace(" Edition", "").trim();
 
 const buttonClass =
-  "block w-full text-center text-[#D0252D] px-2 py-3 border border-[#D0252D] hover:bg-[#D0252D] hover:text-white transition rounded-sm tracking-[0.26rem] bg-white/70 cursor-pointer";
+  "group flex items-center justify-center gap-4 w-full sm:w-auto px-8 md:px-10 h-13 md:h-14 border border-[#e31e26] rounded-sm text-[13px] md:text-[14px] font-semibold uppercase tracking-[0.3em] transition";
 
 export default function Hero() {
   const { events, loading: eventsLoading } = useEvents();
@@ -43,20 +29,19 @@ export default function Hero() {
 
   const loading = eventsLoading || citiesLoading;
 
-  const { lineOne, lineTwo } = useMemo(() => {
-    const availableCities = cities.map((city) =>
-      city.name.replace(" Edition", ""),
-    );
-
-    const orderedCities = desiredOrder.filter((city) =>
-      availableCities.includes(city),
-    );
-
-    return {
-      lineOne: `${orderedCities.slice(0, -2).join(", ")},`,
-      lineTwo: `${orderedCities.slice(-2).join(" & ")} Editions - Launching Soon!`,
+  // Cities not live yet, in the preferred order.
+  const upcomingCities = useMemo(() => {
+    const live = events.map((event) => cityName(event.city?.name));
+    const names = cities
+      .map((city) => cityName(city.name))
+      .filter((name) => name && !live.includes(name));
+    const rank = (name: string) => {
+      const index = desiredOrder.indexOf(name);
+      return index === -1 ? desiredOrder.length : index;
     };
-  }, [cities]);
+
+    return [...new Set(names)].sort((x, y) => rank(x) - rank(y));
+  }, [cities, events]);
 
   if (loading) {
     return (
@@ -70,107 +55,106 @@ export default function Hero() {
   }
 
   return (
-    <section
-      className="relative w-full min-h-screen md:h-206 overflow-hidden bg-cover bg-center md:bg-bottom md:bg-fixed"
-      style={{ backgroundImage: "url(/images/TGM-home.jpg)" }}
-    >
-      <div className="relative z-10 flex justify-start pt-16 md:pt-28 px-5 sm:px-4">
-        <div className="w-full max-w-4xl mx-auto flex flex-col items-center text-center">
-          {/* Socials */}
-          <div className="flex gap-5 md:gap-5 my-4 text-lg md:font-normal md:text-[14.3px] md:leading-[16.3px]">
-            {socialIcons.map((icon) => (
-              <a
-                key={icon.alt}
-                href={icon.link}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img
-                  src={icon.src}
-                  alt={icon.alt}
-                  className="mt-8 w-7 h-7 md:w-6 md:h-6 md:mt-0 cursor-pointer transition-transform hover:scale-110"
-                />
-              </a>
-            ))}
-          </div>
+    <section className="relative w-full overflow-hidden bg-white">
+      {/* Background artwork */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,#ffffff_35%,#f6f6f6_100%)]" />
+      <img
+        src="/images/hero-left.jpg"
+        alt=""
+        className="hidden md:block absolute left-0 bottom-0 h-full w-auto max-w-[32%] object-cover object-right [mask-image:linear-gradient(to_right,black_60%,transparent)]"
+      />
+      <img
+        src="/images/hero-right.jpg"
+        alt=""
+        className="hidden md:block absolute right-0 bottom-0 h-full w-auto max-w-[32%] object-cover object-left [mask-image:linear-gradient(to_left,black_60%,transparent)]"
+      />
+      {/* Keeps the centre text readable over the artwork */}
+      <div className="hidden md:block absolute inset-0 bg-[radial-gradient(ellipse_42%_65%_at_50%_55%,rgba(255,255,255,0.85),transparent)]" />
 
-          {/* Logo */}
-          <img
-            src="/images/image.png"
-            alt="logo"
-            className="w-[210px] sm:w-[150px] md:w-[190px] mb-2 mt-1"
-          />
+      <div className="relative z-10 max-w-6xl mx-auto px-4 pt-28 md:pt-40 pb-14 md:pb-24 flex flex-col items-center text-center font-roboto">
+        {/* Title */}
+        <h1 className="font-bold leading-[1.05] tracking-tight">
+          <span className="block text-[34px] sm:text-[48px] md:text-[64px] text-[#141414]">
+            The 12th Annual
+          </span>
+          <span className="block mt-1 text-[34px] sm:text-[48px] md:text-[64px] text-[#e31e26]">
+            Grand Masters 2026 Series
+          </span>
+        </h1>
 
-          <h2 className="font-roboto text-xs sm:text-sm md:text-[18px] tracking-[2px] md:tracking-[3px] font-bold text-[#333] leading-7 md:leading-8 mb-2">
-            presents
-          </h2>
+        <span className="block mt-6 w-14 h-[3px] bg-[#e31e26]" />
 
-          {/* Title */}
-          <h1 className="font-roboto text-[28px] sm:text-4xl md:text-[40px] font-bold leading-[1.15] md:leading-tight text-[#D0252D] mb-1.5 px-2">
-            The 12th Annual Grand Masters 2026 Series
-          </h1>
+        <p className="mt-6 max-w-xl text-[12px] sm:text-[14px] md:text-[17px] leading-relaxed tracking-[0.3em] uppercase text-[#555]">
+          A 7-City Pan India Corporate Counsel Legal Best Practices Summit
+          Series
+        </p>
 
-          {/* Subtitle */}
-          <p className="font-roboto text-[15px] sm:text-lg md:text-[20px] font-light leading-6 md:leading-relaxed text-[#333333] max-w-3xl mb-2">
-            A 7 City pan India Corporate Counsel Legal Best Practices Summit
-            Series
-          </p>
+        {/* Live editions */}
+        {events.length > 0 && (
+          <>
+            <span className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#e31e26] px-5 py-1.5 text-[13px] md:text-[15px] font-semibold tracking-[0.25em] text-white">
+              <span className="w-2.5 h-2.5 rounded-full bg-white animate-pulse" />
+              LIVE NOW
+            </span>
 
-          {/* Events */}
-          <div className="font-roboto flex flex-col gap-1 text-sm sm:text-base md:text-[18px] md:leading-[31.5px] font-semibold text-[#333] mb-1">
-            {events.map((event) => (
-              <div
-                key={event.id}
-                className="flex flex-col md:flex-row items-center justify-center gap-1 md:gap-0 text-center md:text-left tracking-[1px] md:tracking-[4px] leading-6 md:leading-8"
-              >
-                <div className="flex items-center">
-                  <FaRegCalendarAlt className="text-[#D0252D] mr-2" />
-                  <span>{formatDateWithSuffix(event.date)}</span>
-                  {event.venue && <span>, {event.venue},</span>}
+            <div className="mt-3 flex flex-col sm:flex-row justify-center gap-6 sm:gap-0 sm:divide-x sm:divide-[#cfcfcf]">
+              {events.map((event) => (
+                <div key={event.id} className="text-left sm:px-8 md:px-10">
+                  <p className="text-[30px] md:text-[40px] font-bold uppercase leading-tight text-[#e31e26]">
+                    {cityName(event.city?.name)}
+                  </p>
+                  <p className="mt-2 flex items-center gap-3 text-[15px] md:text-[19px] text-[#222]">
+                    <FaRegCalendarAlt className="shrink-0 text-[#e31e26]" />
+                    {formatDateWithSuffix(event.date)}
+                  </p>
+                  {event.venue && (
+                    <p className="mt-1.5 flex items-center gap-3 text-[15px] md:text-[19px] text-[#222]">
+                      <FaMapMarkerAlt className="shrink-0 text-[#e31e26]" />
+                      {event.venue}
+                    </p>
+                  )}
                 </div>
+              ))}
+            </div>
+          </>
+        )}
 
-                <div className="flex items-center">
-                  <FaMapMarkerAlt className="text-[#D0252D] mr-2 ml-[0.5px] w-2.5 mb-[0.5px]" />
-                  <span>{event.city?.name}</span>
-
-                  <span className="text-[#D0252D] animate-pulse text-xs md:text-sm ml-3">
-                    LIVE NOW
-                  </span>
-                </div>
-              </div>
+        {/* Upcoming editions */}
+        {upcomingCities.length > 0 && (
+          <ul className="mt-8 flex flex-wrap justify-center gap-y-2 divide-x divide-[#cfcfcf] text-[13px] md:text-[17px] uppercase tracking-wide text-[#666]">
+            {upcomingCities.map((city) => (
+              <li key={city} className="px-4 md:px-8">
+                {city}
+              </li>
             ))}
-          </div>
+          </ul>
+        )}
 
-          {/* Upcoming Cities */}
-          <h2 className="font-roboto text-sm sm:text-base md:text-lg font-semibold tracking-wider md:tracking-[4px] text-black/50">
-            {lineOne}
-          </h2>
+        {/* Buttons */}
+        <div className="mt-10 flex flex-col sm:flex-row items-center gap-3 sm:gap-5 w-full sm:w-auto">
+          <Link
+            href={EVENT_CONFIG.registrationOpen ? "/#register" : "/#gallery"}
+            className={`${buttonClass} bg-[#e31e26] text-white hover:bg-[#c8161d]`}
+          >
+            {EVENT_CONFIG.registrationOpen ? "Register Now" : "Summit Gallery"}
+            <FaArrowRight className="transition group-hover:translate-x-1" />
+          </Link>
 
-          <h2 className="font-roboto text-sm sm:text-base md:text-lg font-semibold tracking-wider md:tracking-[4px] text-black/50 mb-6 mt-1">
-            {lineTwo}
-          </h2>
+          <Link
+            href="/#agenda"
+            className={`${buttonClass} bg-white/80 text-[#e31e26] hover:bg-[#e31e26] hover:text-white`}
+          >
+            Agenda
+            <FaArrowRight className="transition group-hover:translate-x-1" />
+          </Link>
 
-          {/* Buttons */}
-          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mt-2 md:mt-4 pb-12 md:pb-20 w-full sm:w-auto text-[14px] leading-5 font-custom">
-            <Link
-              href={EVENT_CONFIG.registrationOpen ? "/#register" : "/#gallery"}
-              className="w-[65%] sm:w-auto"
-            >
-              <span className={`${buttonClass} font-bold`}>
-                {EVENT_CONFIG.registrationOpen
-                  ? "REGISTER NOW"
-                  : "SUMMIT GALLERY"}
-              </span>
-            </Link>
-
-            <Link href="/#agenda" className="w-[65%] sm:w-auto">
-              <span className={`${buttonClass} font-semibold`}>AGENDA</span>
-            </Link>
-
-            <Link href="/#speak" className="w-[65%] sm:w-auto">
-              <span className={`${buttonClass} font-semibold`}>SPEAKERS</span>
-            </Link>
-          </div>
+          <Link
+            href="/#speak"
+            className={`${buttonClass} bg-white/80 text-[#e31e26] hover:bg-[#e31e26] hover:text-white`}
+          >
+            Speakers
+            <FaArrowRight className="transition group-hover:translate-x-1" />
+          </Link>
         </div>
       </div>
     </section>
