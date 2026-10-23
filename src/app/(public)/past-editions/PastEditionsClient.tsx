@@ -79,7 +79,7 @@ export default function PastEditionsClient() {
                       </div>
 
                       <div className="pb-4 text-center">
-                        <h2 className="font-roboto text-[20px] font-normal text-[#d71920]">
+                        <h2 className="font-roboto text-[20px] font-normal text-[#d71920] px-12">
                           <Link
                             href={`/${event.slug}-edition-an-overview`}
                             className="hover:underline"

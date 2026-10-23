@@ -12,7 +12,7 @@ const siteLinks = [
   { label: "Agenda", href: "/#agenda" },
   { label: "Speak", href: "/#speak" },
   { label: "Sponsor", href: "/#sponsor" },
-  { label: "Past Editions", href: "/past-editions" },
+  { label: "Gallery", href: "/#gallery" },
   { label: "Connect", href: "/#connect" },
 ];
 
@@ -130,7 +130,8 @@ export default function Footer() {
           {/* Flagship Summits */}
           <div className="md:col-span-2 xl:col-span-1 xl:pl-10">
             <h2 className="text-[22px] md:text-[24px] font-bold text-[#141414]">
-              The Lex Witness Annual Flagship Summits
+              The Lex<span className="text-[#D0252D]"> Witness</span> Annual
+              Flagship Summits
             </h2>
             <span className="block mt-4 w-14 h-1 bg-[#D0252D]" />
             <ul className="mt-5">

@@ -9,6 +9,7 @@ export const navItems: NavItem[] = [
   { id: "speak", label: "SPEAK", type: "section" },
   { id: "agenda", label: "AGENDA", type: "section" },
   { id: "sponsor", label: "SPONSOR", type: "section" },
-  { id: "/past-editions", label: "PAST EDITIONS", type: "route" },
+  // { id: "/past-editions", label: "PAST EDITIONS", type: "route" },
+  { id: "gallery", label: "GALLERY", type: "section" },
   { id: "connect", label: "CONNECT", type: "section" },
 ];

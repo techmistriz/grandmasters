@@ -75,8 +75,6 @@ export default function Speakers() {
   const selectedEvent = events[tabs.findIndex((tab) => tab.id === active)];
 
   const speakers = selectedEvent?.speakers ?? [];
-  const firstRowSpeakers = speakers.slice(0, 2);
-  const remainingSpeakers = speakers.slice(2);
 
   return (
     <section
@@ -100,7 +98,7 @@ export default function Speakers() {
         </div>
 
         {/* Tabs */}
-        <div className="relative flex flex-col md:flex-row max-w-4xl mx-auto justify-center items-center gap-3 md:gap-60 mb-1 px-4">
+        <div className="relative flex flex-col md:flex-row max-w-4xl mx-auto justify-center items-center gap-2 md:gap-20 mb-1 px-4">
           {tabs.map((tab) => (
             <div key={tab.id} id={tab.id} className="relative scroll-mt-80">
               <button
@@ -138,20 +136,9 @@ export default function Speakers() {
 
         <div className="h-2 w-full max-w-5xl mx-auto border-t border-gray-300 mb-6"></div>
 
-        {/* First Row - 2 Speakers */}
-        <div className="flex flex-wrap justify-center gap-4 max-w-5xl mx-auto mb-8 px-4">
-          {firstRowSpeakers.map((item) => (
-            <SpeakerCard
-              key={item.id}
-              item={item}
-              className="w-full sm:w-[280px]"
-            />
-          ))}
-        </div>
-
-        {/* Remaining Speakers */}
+        {/* All Speakers - 4 Column Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-2 max-w-5xl mx-auto pb-10 px-4">
-          {remainingSpeakers.map((item) => (
+          {speakers.map((item) => (
             <SpeakerCard key={item.id} item={item} className="transition" />
           ))}
         </div>

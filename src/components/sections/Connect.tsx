@@ -85,7 +85,7 @@ export default function Connect() {
             </span>
             <div>
               <p className="text-[16px] md:text-[19px] font-semibold text-[#141414]">
-                <span className="text-[#D0252D]">Lex Witness</span> –
+                Lex<span className="text-[#D0252D]"> Witness</span> –
                 India&apos;s 1st Magazine on Legal & Corporate Affairs
               </p>
               <p className="mt-2 text-[15px] md:text-[17px] leading-relaxed text-[#555]">
