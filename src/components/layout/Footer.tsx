@@ -47,11 +47,9 @@ const summits = [
   },
 ];
 
-// Grand Masters has no policy pages of its own; these are the shared Lex
-// Witness ones.
 const legalLinks = [
-  { label: "Privacy Policy", href: "https://www.bfls.in/privacy-policy" },
-  { label: "Terms of Use", href: "https://www.bfls.in/terms-conditions" },
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Terms of Use", href: "/terms-conditions" },
 ];
 
 const socials = [
@@ -213,15 +211,13 @@ export default function Footer() {
           <div className="flex flex-col sm:flex-row items-center gap-5">
             <nav className="flex flex-wrap justify-center items-center text-[14px] md:text-[15px] text-white/85">
               {legalLinks.map((link) => (
-                <a
+                <Link
                   key={link.label}
                   href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="px-4 border-r border-white/30 hover:text-[#ff4b52] transition"
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
               <Link
                 href="/summit-secretariat"
