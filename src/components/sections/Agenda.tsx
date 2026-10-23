@@ -51,7 +51,7 @@ export default function Agenda() {
           The Summit Agenda
         </h1>
 
-        <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-60 relative md:border-b md:border-gray-200">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-2 md:gap-20 relative md:border-b md:border-gray-200">
           {events.map((event, index) => {
             const tabId = tabIds[index];
             const isActive = activeTab === tabId;
