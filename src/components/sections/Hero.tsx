@@ -99,16 +99,19 @@ export default function Hero() {
 
             <div className="mt-3 flex flex-col sm:flex-row justify-center gap-6 sm:gap-0 sm:divide-x sm:divide-[#cfcfcf]">
               {events.map((event) => (
-                <div key={event.id} className="text-left sm:px-8 md:px-10">
+                <div
+                  key={event.id}
+                  className="text-center sm:text-left sm:px-8 md:px-10"
+                >
                   <p className="text-[30px] md:text-[40px] font-bold uppercase leading-tight text-[#e31e26]">
                     {cityName(event.city?.name)}
                   </p>
-                  <p className="mt-2 flex items-center gap-3 text-[15px] md:text-[19px] text-[#222]">
+                  <p className="mt-2 flex items-center justify-center sm:justify-start gap-3 text-[15px] md:text-[19px] text-[#222]">
                     <FaRegCalendarAlt className="shrink-0 text-[#e31e26]" />
                     {formatDateWithSuffix(event.date)}
                   </p>
                   {event.venue && (
-                    <p className="mt-1.5 flex items-center gap-3 text-[15px] md:text-[19px] text-[#222]">
+                    <p className="mt-1.5 flex items-center justify-center sm:justify-start gap-3 text-[15px] md:text-[19px] text-[#222]">
                       <FaMapMarkerAlt className="shrink-0 text-[#e31e26]" />
                       {event.venue}
                     </p>
