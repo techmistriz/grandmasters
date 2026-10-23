@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { FaArrowRight, FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
 import { LuMail } from "react-icons/lu";
 
@@ -57,6 +60,40 @@ const socials = [
 ];
 
 export default function Footer() {
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const handleNavigation = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    if (!href.startsWith("/#")) return;
+
+    event.preventDefault();
+
+    const hash = href.split("#")[1];
+
+    const scrollToSection = () => {
+      const section = document.getElementById(hash);
+
+      if (section) {
+        section.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    };
+
+    if (pathname === "/") {
+      // Handle clicking the same hash again.
+      window.history.replaceState(null, "", href);
+      scrollToSection();
+    } else {
+      // Navigate home first, then scroll to the target section.
+      router.push(href);
+    }
+  };
+
   return (
     <footer className="w-full font-roboto">
       {/* Top Section */}
@@ -114,6 +151,7 @@ export default function Footer() {
                 <li key={link.label} className="border-b border-[#dcdcdc]">
                   <Link
                     href={link.href}
+                    onClick={(event) => handleNavigation(event, link.href)}
                     className="group flex items-center justify-between py-2 text-[17px] text-[#222] hover:text-[#D0252D] transition"
                   >
                     {link.label}
