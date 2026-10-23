@@ -4,4 +4,5 @@ export const FORM_TYPES = {
   SHOWCASE: "Showcase",
   NUMBER: "Number",
   SPEAKERS: "Speakers",
+  EARLY_BIRD: "Early Bird",
 } as const;

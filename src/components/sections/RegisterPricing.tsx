@@ -3,6 +3,7 @@
 import { useState, type CSSProperties } from "react";
 
 import CitySelectorModal from "@/src/components/common/CityPopup";
+import EarlyBirdInterest from "@/src/components/sections/EarlyBirdInterest";
 import { useEvents } from "@/src/hooks/useEvents";
 import { usePlans } from "@/src/hooks/usePlans";
 import type { Plan } from "@/src/types/event.type";
@@ -72,6 +73,8 @@ export default function RegisterPricing() {
 
           <div className="mx-auto mt-[18px] h-[3px] w-[100px] bg-[#D0252D] sm:mt-[22px] sm:w-[120px]" />
         </div>
+
+        <EarlyBirdInterest />
 
         {/* Cards */}
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
