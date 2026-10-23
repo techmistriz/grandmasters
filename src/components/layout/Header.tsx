@@ -79,19 +79,24 @@ export default function Header() {
   const actionSection = registrationOpen ? "register" : "gallery";
 
   return (
-    <nav className="fixed top-0 left-0 z-50 w-full bg-[#E9E9E9] shadow-sm">
+    <nav className="fixed top-0 left-0 z-50 w-full bg-white border-b border-[#ececec] shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
       <div className="mx-auto flex h-16 md:h-24 max-w-6xl items-center justify-between px-4 md:px-4">
         {/* Logo */}
         <Link
           href="/"
           onClick={handleLogoClick}
-          className="text-2xl md:text-3xl font-bold tracking-wide text-[#D0252D]"
+          aria-label="Lex Witness, home"
+          className="shrink-0"
         >
-          #TGM2026
+          <img
+            src="/images/image.png"
+            alt="Lex Witness"
+            className="h-11 md:h-16 w-auto"
+          />
         </Link>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex items-center space-x-4 font-custom text-sm font-bold tracking-widest">
+        <ul className="hidden md:flex items-center gap-4 lg:gap-8 font-roboto text-[13px] font-medium tracking-[0.15em]">
           {navItems.map((item) => {
             if (item.type === "route") {
               return (
@@ -140,7 +145,7 @@ export default function Header() {
         <Link
           href={`/#${actionSection}`}
           onClick={(e) => handleSectionClick(e, actionSection)}
-          className="hidden md:block cursor-pointer rounded-sm border border-[#D0252D] px-3 py-3 text-sm font-bold uppercase tracking-[4px] text-[#D0252D] transition hover:bg-[#D0252D] hover:text-white"
+          className="hidden md:block shrink-0 cursor-pointer rounded-sm border border-[#D0252D] px-5 lg:px-8 py-3.5 text-sm font-semibold uppercase tracking-[0.3em] text-[#D0252D] transition hover:bg-[#D0252D] hover:text-white"
         >
           {actionLabel}
         </Link>
@@ -158,7 +163,7 @@ export default function Header() {
 
       {/* Mobile Menu */}
       <div
-        className={`md:hidden overflow-hidden bg-[#E9E9E9] shadow-lg transition-all duration-300 ease-in-out ${
+        className={`md:hidden overflow-hidden bg-white shadow-lg transition-all duration-300 ease-in-out ${
           mobileMenu ? "max-h-screen" : "max-h-0"
         }`}
       >
