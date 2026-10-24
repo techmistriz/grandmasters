@@ -6,7 +6,7 @@ import { FaArrowRight, FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
 import { LuMail } from "react-icons/lu";
 
 const WHATSAPP_URL =
-  "https://api.whatsapp.com/send?phone=919899332111&text=Hello%2C%20I%20am%20interested%20in%20The%20Grand%20Masters%202026%20Summit%20Series";
+  "https://api.whatsapp.com/send?phone=919899332111&text=Hello%2C%20I%20am%20interested%20in%20The%20Lex%20Witness%2012th%20Annual%20Grand%20Masters%202026%20Summit%20Series";
 const LINKEDIN_URL = "https://www.linkedin.com/company/389718/";
 
 const siteLinks = [
