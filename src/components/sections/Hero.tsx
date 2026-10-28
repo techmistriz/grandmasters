@@ -136,7 +136,9 @@ export default function Hero() {
         {/* Buttons */}
         <div className="mt-10 flex flex-col sm:flex-row items-center gap-3 sm:gap-5 w-full sm:w-auto">
           <Link
-            href={EVENT_CONFIG.registrationOpen ? "/#register" : "/#gallery"}
+            href={
+              EVENT_CONFIG.registrationOpen ? "/#register-plans" : "/#gallery"
+            }
             className={`${buttonClass} bg-[#e31e26] text-white hover:bg-[#c8161d]`}
           >
             {EVENT_CONFIG.registrationOpen ? "Register Now" : "Summit Gallery"}
