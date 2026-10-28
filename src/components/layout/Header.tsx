@@ -76,7 +76,7 @@ export default function Header() {
 
   const registrationOpen = EVENT_CONFIG.registrationOpen;
   const actionLabel = registrationOpen ? "Register Now" : "Summit Gallery";
-  const actionSection = registrationOpen ? "register" : "gallery";
+  const actionSection = registrationOpen ? "register-plans" : "gallery";
 
   return (
     <nav className="fixed top-0 left-0 z-50 w-full bg-white border-b border-[#ececec] shadow-[0_2px_12px_rgba(0,0,0,0.04)]">

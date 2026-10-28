@@ -76,8 +76,11 @@ export default function RegisterPricing() {
 
         <EarlyBirdInterest />
 
-        {/* Cards */}
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
+        {/* Cards. "Register Now" links target this grid, below the form. */}
+        <div
+          id="register-plans"
+          className="grid scroll-mt-20 grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-5 md:scroll-mt-28 lg:grid-cols-4"
+        >
           {loading
             ? Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
             : plans.map((plan, index) => (
